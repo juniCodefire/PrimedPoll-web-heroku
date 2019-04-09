@@ -1,3 +1,3 @@
 # PrimedPoll-API
 
-Documentation - https://documenter.getpostman.com/view/6901755/S1EL31qv
+Signup Documentation - https://documenter.getpostman.com/view/6901755/S1EL31qv
