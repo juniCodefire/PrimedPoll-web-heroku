@@ -24,7 +24,7 @@ public function verify($verify_token)
 
 			if ( ! $user)
 			{
-				return response()->json("User does not exist", 401);
+				return response()->json("Account already verified, please Login!", 401);
 			}
 
 			$user->email_verified_at = date("Y-m-d H:i:s");
