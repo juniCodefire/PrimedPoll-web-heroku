@@ -14,3 +14,9 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+// Register Controllers
+
+$router->post('api/register', 'RegisterController@register');
+
+$router->put('api/update', 'UpdateController@update');
