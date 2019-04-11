@@ -15,6 +15,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('/api/register', 'SignupController@register');
 
-$router->get('register/verify/{verifyToken}', 'VerifyMailController@verify');
+$router->post('password/reset', 'PasswordController@resetpassword');
+
+$router->put('password/change', 'ChangePasswordController@updatepassword');

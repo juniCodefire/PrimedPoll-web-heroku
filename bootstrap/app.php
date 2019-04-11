@@ -23,6 +23,12 @@ $app = new Laravel\Lumen\Application(
 
 $app->withFacades();
 
+//**************************This Involves mail Sending*************************
+
+$app->withFacades(true, [
+    'Illuminate\Support\Facades\Mail' => 'Mail',
+]);
+
 $app->withEloquent();
 
 /*
@@ -61,9 +67,15 @@ $app->singleton(
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
+
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class
+ ]);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -77,14 +89,11 @@ $app->singleton(
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
-$app->register(Illuminate\Mail\MailServiceProvider::class);
-$app->configure('mail');
-$app->alias('mailer', Illuminate\Mail\Mailer::class);
-$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
-$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
+$app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
 
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->configure('mail');
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
