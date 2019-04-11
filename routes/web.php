@@ -15,6 +15,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+
 $router->post('/api/register', 'SignupController@register');
 
 $router->get('register/verify/{verifyToken}', 'VerifyMailController@verify');
+
+//Post request for the Sign In
+$router->post('api/sign_in', 'SignInController@authenticate');
