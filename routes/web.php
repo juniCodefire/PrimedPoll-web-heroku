@@ -15,14 +15,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(
-    ['middleware' => 'jwt.auth'], 
-    function() use ($router) {
-        $router->get('users', function() {
-            $users = \App\User::all();
-            return response()->json($users);
-        });
-    }
-);
+
+$router->post('/api/register', 'SignupController@register');
+
+$router->get('register/verify/{verifyToken}', 'VerifyMailController@verify');
+
 //Post request for the Sign In
 $router->post('api/sign_in', 'SignInController@authenticate');
