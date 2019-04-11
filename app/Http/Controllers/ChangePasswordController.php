@@ -47,7 +47,7 @@ class ChangePasswordController extends Controller
        }
 
         try{
-            $checkverifyemail->password = $verifyPassword;
+            $checkverifyemail->password = Hash::make($verifyPassword);
             // Mail::to($VerifyEmail->email)->send(new NewPassword($VerifyEmail));
             $checkverifyemail->save();
             return response()->json(['data' => ['success' => true, 'message' => "Your password has been changed"]], 200);
