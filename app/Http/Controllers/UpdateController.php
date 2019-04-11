@@ -29,10 +29,10 @@ class UpdateController extends Controller
        $id = Auth::id();
 
        $rules = [
-        'first_name' => 'unique:users,first_name,'.$id.'|string',
-        'last_name' => 'unique:users,last_name,'.$id.'|string',
+        'first_name' => 'users,first_name,string',
+        'last_name' => 'unique:users,last_name,string',
         'email' => 'unique:users,email,'.$id.'|required|email',
-        'phone' => 'unique:users,phone,'.$id.'|required|phone:NG,US,mobile',
+        'phone' => 'users,phone,required|phone:NG,US,mobile',
         'dob' => 'date',
         'category' => 'string',
         'password' => 'nullable|min:6|different:current_password|confirmed',
