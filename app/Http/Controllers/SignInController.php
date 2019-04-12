@@ -30,7 +30,7 @@ class SignInController extends Controller
 
     try {
         if (!$token = $this->jwt->attempt($request->only("email", "password"))) {
-            return response()->json(['user_not_found'], 404);
+            return response()->json(['message' => 'User not found'], 404);
         }
     } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
         return response()->json(['token_expired'], 500);
@@ -43,7 +43,7 @@ class SignInController extends Controller
        $user = User::where('email',$request->input("email"))->first();
 
            if ($user->email_verified_at != null) {
-                    return response()->json(['data' =>['success' => true, 'user' => $user, 'token' => $token]], 200);
+                    return response()->json(['data' =>['success' => true,'user' => $user, 'token' => $token]], 200);
              }else{
                     return response()->json(['data' =>['error' => false, 'message' => "Not confirmed yet"]], 401); 
                 }    
