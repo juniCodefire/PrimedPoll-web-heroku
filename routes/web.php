@@ -32,4 +32,10 @@ $router->post('api/login', 'SignInController@authenticate');
 
 $router->put('api/update', 'UpdateController@update');
 
+//Tino
+$router->post('password/reset', 'PasswordController@resetpassword');
+
+$router->put('password/change', 'ChangePasswordController@updatepassword');
+
+
 
