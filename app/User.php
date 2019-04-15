@@ -20,6 +20,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $fillable = [
+
         'first_name', 'last_name', 'email', 'phone', 'category', 'dob', 'api_token',  'password'
 
     ];
@@ -30,6 +31,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $hidden = [
+
         'password',  'remember_token', 'email_verified_at','verify_token', 
     ];
       public function getJWTIdentifier() {
@@ -39,4 +41,5 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function getJWTCustomClaims() {
         return [];
     }
+
 }
