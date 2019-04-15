@@ -22,18 +22,14 @@ $router->group(['middleware' => 'auth:api', 'prefix' => 'api'], function() use (
 
 });
 
-//jerry
 $router->post('/api/register', 'SignupController@register');
 
 $router->get('api/register/verify/{verifyToken}', 'VerifyMailController@verify');
 
-//oko
+
 $router->post('api/login', 'SignInController@authenticate');
 
-//francis
+
 $router->put('api/update', 'UpdateController@update');
 
-//tino
-$router->post('password/reset', 'PasswordController@resetpassword');
 
-$router->put('password/change', 'ChangePasswordController@updatepassword');
