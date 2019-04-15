@@ -23,12 +23,6 @@ $app = new Laravel\Lumen\Application(
 
 $app->withFacades();
 
-//**************************This Involves mail Sending*************************
-
-$app->withFacades(true, [
-    'Illuminate\Support\Facades\Mail' => 'Mail',
-]);
-
 $app->withEloquent();
 
 /*
@@ -63,10 +57,8 @@ $app->singleton(
 |
 */
 
-
 $app->middleware([
-    App\Http\Middleware\ExampleMiddleware::class,
-   App\Http\Middleware\CorsMiddleware::class
+    App\Http\Middleware\ExampleMiddleware::class
 ]);
 
 $app->routeMiddleware([
@@ -76,7 +68,6 @@ $app->routeMiddleware([
     'JWTFactory' => Tymon\JWTAuthFacades\JWTFactory::class,
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
-
 
 /*
 |--------------------------------------------------------------------------
@@ -91,7 +82,6 @@ $app->routeMiddleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 
-
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->configure('mail');
 $app->alias('mailer', Illuminate\Mail\Mailer::class);
@@ -103,7 +93,6 @@ $app->register(App\Providers\EventServiceProvider::class);
 
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Propaganistas\LaravelPhone\PhoneServiceProvider::class);
-
 
 /*
 |--------------------------------------------------------------------------
