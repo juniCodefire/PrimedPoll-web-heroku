@@ -15,15 +15,21 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('/api/register', 'SignupController@register');
-
-$router->get('register/verify/{verifyToken}', 'VerifyMailController@verify');
-
-$router->post('api/login', 'SignInController@authenticate');
-
 
 $router->group(['middleware' => 'auth:api', 'prefix' => 'api'], function() use ($router)
 {
     //Put you controller inside this block for authrization or create a new ground with new prefix
 
 });
+
+$router->post('/api/register', 'SignupController@register');
+
+$router->get('api/register/verify/{verifyToken}', 'VerifyMailController@verify');
+
+
+$router->post('api/login', 'SignInController@authenticate');
+
+
+$router->put('api/update', 'UpdateController@update');
+
+

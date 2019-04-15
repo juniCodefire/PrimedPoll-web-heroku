@@ -69,8 +69,6 @@ $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -83,6 +81,7 @@ $app->routeMiddleware([
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
+
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->configure('mail');
 $app->alias('mailer', Illuminate\Mail\Mailer::class);
@@ -93,6 +92,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Propaganistas\LaravelPhone\PhoneServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
