@@ -15,4 +15,5 @@ class ExampleController extends Controller
     }
 
     //
+
 }
