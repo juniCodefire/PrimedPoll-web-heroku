@@ -9,7 +9,7 @@ use libphonenumber\PhoneNumberType;
 
 
 
-class CompleteRegistrationController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Create a new controller instance.
