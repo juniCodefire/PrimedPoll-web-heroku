@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use libphonenumber\PhoneNumberType;
 
 
 
-class UpdateController extends Controller
+class CompleteRegistrationController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -30,12 +29,10 @@ class UpdateController extends Controller
 
        $rules = [
         'first_name' => 'users,first_name,string',
-        'last_name' => 'unique:users,last_name,string',
+        'last_name' => 'users,last_name,string',
         'email' => 'unique:users,email,'.$id.'|required|email',
         'phone' => 'users,phone,required|phone:NG,US,mobile',
         'dob' => 'date',
-        'category' => 'string',
-        'password' => 'nullable|min:6|different:current_password|confirmed',
         ];
 
         $messages = [
@@ -58,11 +55,7 @@ class UpdateController extends Controller
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
         $user->dob = $request->input('dob');
-        $user->category = $request->input('category');
-        if(!empty($request->input('password')))
-        {
-            $user->password = Hash::make($request->input('password'));
-        }
+        $user->image = $user.jpg;
        
         $user->save();
 		$res['message'] = "{$user->first_name} Updated Successfully!";        

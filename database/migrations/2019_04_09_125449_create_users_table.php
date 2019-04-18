@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('verifycode')->default('');
             $table->string('phone')->nullable();
             $table->string('dob')->nullable();
-            $table->string('category')->nullable();
+            $table->string('interest')->nullable();
             $table->timestamps();
         });
     }

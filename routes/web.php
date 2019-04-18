@@ -30,7 +30,9 @@ $router->get('api/register/verify/{verifyToken}', 'VerifyMailController@verify')
 $router->post('api/login', 'SignInController@authenticate');
 
 
-$router->put('api/update', 'UpdateController@update');
+$router->put('api/update', 'CompleteRegistrationController@update');
+
+$router->get('api/profile', 'ProfileController@profile');
 
 //Tino
 $router->post('password/reset', 'PasswordController@resetpassword');
