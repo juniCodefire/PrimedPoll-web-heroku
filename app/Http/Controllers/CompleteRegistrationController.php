@@ -18,19 +18,17 @@ class CompleteRegistrationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        
     }
 
     //
 
     public function validateRequest(Request $request)
     {
-       $id = Auth::id();
 
        $rules = [
-        'first_name' => 'users,first_name,string',
-        'last_name' => 'users,last_name,string',
-        'email' => 'unique:users,email,'.$id.'|required|email',
+        'first_name' => 'users,first_name,string|required',
+        'last_name' => 'users,last_name,string|required',
         'phone' => 'users,phone,required|phone:NG,US,mobile',
         'dob' => 'date',
         ];
@@ -52,7 +50,6 @@ class CompleteRegistrationController extends Controller
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
-        $user->email = $request->input('email');
         $user->phone = $request->input('phone');
         $user->dob = $request->input('dob');
         $user->image = $user.jpg;
