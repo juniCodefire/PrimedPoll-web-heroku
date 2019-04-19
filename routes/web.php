@@ -19,16 +19,16 @@ $router->get('/', function () use ($router) {
 $router->group(['middleware' => 'auth:api', 'prefix' => 'api'], function() use ($router)
 {
     //Put you controller inside this block for authrization or create a new ground with new prefix
+    $router->put('/edit', 'EditProfileController@editprofile');
+    $router->post('/upload', 'EditProfileController@uploadImage');
 
 });
 
 $router->post('/api/register', 'SignupController@register');
-
-$router->get('api/register/verify/{verifyToken}', 'VerifyMailController@verify');
+$router->post('api/register/verify', 'VerifyUserController@verifyUser');
 
 
 $router->post('api/login', 'SignInController@authenticate');
-
 
 $router->put('api/update', 'UpdateController@update');
 
