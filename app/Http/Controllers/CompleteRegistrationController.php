@@ -42,9 +42,8 @@ class CompleteRegistrationController extends Controller
 
     }
 
-    public function update(Request $request)
+    public function update($user, Request $request)
     {
-        $user = Auth::user();
        
         $this->validateRequest($request);
 
