@@ -10,10 +10,11 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-    'defaults' => [
-        'guard' =>  env('AUTH_GUARD', 'api'),
-        'passwords' => 'users',
-    ],
+        'defaults' => [
+            'guard' =>  'api',
+            'passwords' => 'users',
+         ],
+  
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -34,6 +35,10 @@ return [
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
+        ],
+        'admin' => [
+            'driver' => 'jwt',
+            'provider' => 'admins',
         ],
     ],
     /*
@@ -57,6 +62,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
+          'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
+        ],
+
     ],
     /*
     |--------------------------------------------------------------------------
