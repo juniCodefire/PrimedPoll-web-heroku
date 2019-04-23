@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 
-class User extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
+class Admin extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -21,10 +21,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      */
 
     protected $fillable = [
-      
-        'first_name', 'last_name', 'email', 'phone', 'category', 'dob', 'api_token',  'password', 'verifycode'
-
-
+        'email', 'password',
     ];
 
     /**
@@ -33,7 +30,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $hidden = [
-        'password',  'remember_token', 'email_verified_at', 
+        'password',
     ];
       public function getJWTIdentifier() {
         return $this->getKey();
@@ -42,5 +39,4 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function getJWTCustomClaims() {
         return [];
     }
-
 }
