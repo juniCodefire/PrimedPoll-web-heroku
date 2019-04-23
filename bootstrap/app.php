@@ -25,6 +25,9 @@ $app->withFacades();
 
 $app->withEloquent();
 
+class_alias('JD\Cloudder\Facades\Cloudder', 'Cloudder');
+$app->register(JD\Cloudder\CloudderServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings

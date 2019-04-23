@@ -14,10 +14,15 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
 //****************Users Routes**************** */
-$router->post('api/user/login', 'SignInController@userLogin');
 $router->post('/api/register', 'SignupController@register');
-$router->get('api/register/verify/{verifyToken}', 'VerifyMailController@verify');
+$router->post('api/register/verify', 'VerifyUserController@verifyUser');
+
+$router->post('api/user/login', 'SignInController@userLogin');
+
+
+
 $router->put('api/update', 'UpdateController@update');
 //Tino
 $router->post('password/reset', 'PasswordController@resetpassword');
@@ -47,4 +52,9 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     $router->put('admin/edit/intrest/{intrest_id}', 'CreateIntrestController@update');
     $router->delete('admin/delete/intrest/{intrest_id}', 'CreateIntrestController@destroy');
     //************************************** */
+    
+    //Iro
+      $router->put('/edit', 'EditProfileController@editprofile');
+    $router->post('/upload', 'EditProfileController@uploadImage');
+
 });

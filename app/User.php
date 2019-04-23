@@ -21,7 +21,9 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      */
 
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone', 'category', 'dob', 'api_token',  'password',
+      
+        'first_name', 'last_name', 'email', 'phone', 'category', 'dob', 'api_token',  'password', 'verifycode'
+
 
     ];
 
@@ -31,7 +33,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $hidden = [
-        'password',  'remember_token', 'email_verified_at','verify_token', 
+        'password',  'remember_token', 'email_verified_at', 
     ];
       public function getJWTIdentifier() {
         return $this->getKey();
@@ -40,4 +42,5 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function getJWTCustomClaims() {
         return [];
     }
+
 }
