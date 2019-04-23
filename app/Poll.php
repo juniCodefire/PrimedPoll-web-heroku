@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 
-class User extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
+class Poll extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -20,8 +20,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone', 'category', 'dob', 'api_token',  'password'
-
+        'interest', 'poll', 'expirydate',
     ];
 
     /**
@@ -32,6 +31,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     protected $hidden = [
         'password',  'remember_token', 'email_verified_at','verify_token',
     ];
+
       public function getJWTIdentifier() {
         return $this->getKey();
     }
@@ -40,8 +40,13 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
         return [];
     }
 
-    public function polls()
+    public function options()
     {
-        return $this->hasMany('App\Poll');
+        return $this->hasMany('App\Option');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 }

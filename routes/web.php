@@ -37,5 +37,7 @@ $router->post('password/reset', 'PasswordController@resetpassword');
 
 $router->put('password/change', 'ChangePasswordController@updatepassword');
 
+$router->post('polls/create', 'PollController@createpoll');
+
 
 
