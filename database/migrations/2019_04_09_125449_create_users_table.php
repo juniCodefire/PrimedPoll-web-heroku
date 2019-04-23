@@ -27,7 +27,6 @@ class CreateUsersTable extends Migration
             $table->string('image_name')->nullable();
             $table->string('image_url')->nullable();
             $table->string('dob')->nullable();
-            $table->string('category')->nullable();
             $table->timestamps();
         });
     }
