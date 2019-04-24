@@ -20,7 +20,7 @@ $router->group(['middleware' => 'auth:api', 'prefix' => 'api'], function () use 
     //Put you controller inside this block for authrization or create a new ground with new prefix
 
 
-    $router->post('api/polls/create', 'PollController@createpoll');
+    $router->post('polls/create', 'PollController@createpoll');
 });
 
 $router->post('/api/register', 'SignupController@register');

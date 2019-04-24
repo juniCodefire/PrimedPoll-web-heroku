@@ -72,7 +72,7 @@ class PollController extends Controller
                 return response()->json(['data' => ['success' => true, 'message' => 'Poll created', 'Poll' => $poll, 'options' => $optionsModel]], 201);
             }
         } else {
-            return response()->json(['data' => ['success' => false, 'message' => 'Unauthorized access']], 500);
+            return response()->json(['data' => ['success' => false, 'message' => 'Unauthorized access']], 401);
         }
     }
 }
