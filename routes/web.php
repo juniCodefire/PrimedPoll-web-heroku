@@ -21,8 +21,10 @@ $router->post('api/register/verify', 'VerifyUserController@verifyUser');
 
 $router->post('api/user/login', 'SignInController@userLogin');
 
-
+// This controller completes user registration
 $router->put('api/update', 'CompleteRegistrationController@update');
+
+// This controller displays all user information 
 $router->get('api/profile', 'ProfileController@profile');
 
 //Tino
