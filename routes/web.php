@@ -22,8 +22,9 @@ $router->post('api/register/verify', 'VerifyUserController@verifyUser');
 $router->post('api/user/login', 'SignInController@userLogin');
 
 
+$router->put('api/update', 'CompleteRegistrationController@update');
+$router->get('api/profile', 'ProfileController@profile');
 
-$router->put('api/update', 'UpdateController@update');
 //Tino
 $router->post('password/reset', 'PasswordController@resetpassword');
 $router->put('password/change', 'ChangePasswordController@updatepassword');
