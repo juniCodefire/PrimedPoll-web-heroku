@@ -31,10 +31,11 @@ class PollController extends Controller
         ]);
 
         $poll = new Poll;
-        $user = Auth::user();
+        $AuthenticatedUser = Auth::user();
 
-        // $poll->user_id = $user->id;
-        $poll->user_id = 1;
+        // $poll->user_id = 1;
+        if ($AuthenticatedUser) {
+            $poll->user_id = $AuthenticatedUser->id;
         $poll->name = $request->input('pollname');
         $poll->interest_id = $request->input('interest');
         $poll->expirydate = $request->input('expirydate');
@@ -56,29 +57,25 @@ class PollController extends Controller
                     $optionsModel->save();
                 }
             }
-            return 'yes';
+            // return 'yes';
+            return response()->json(['data' => ['success' => true, 'message' => 'Poll created', 'Poll' => $poll, 'options' => $optionsModel]], 201);
+        } elseif ($request->has('options')) {
+
+            $text = $request->options;
+            $splitByLine = explode("\n", $text);
+            foreach ($splitByLine as $singleOption) {
+                $poll_id = $poll->id;
+                $optionsModel = new Option;
+                $optionsModel->name = $singleOption;
+                $optionsModel->poll_id = $poll_id;
+                $optionsModel->save();
+            }
+            // return 'text inserted';
+            return response()->json(['data' => ['success' => true, 'message' => 'Poll created', 'Poll' => $poll, 'options' => $optionsModel]], 201);
         }
-
-
-        // if ($requzest->hasFile('options') && $request->file('image')->isValid()) {
-        //     foreach ($request->file('options') as $file) {
-        //         $filename = $file->getClientOriginalName();
-        //         $imagename = $file->getRealPath();
-        //         Cloudder::upload($imagename, null);
-
-        //         list($width, $height) = getimagesize($imagename);
-        //         $this->saveimages($request, $imageurl);
-        //         $destinationPath = "uploads";
-        //         $poll_id = $poll->id;
-        //         $file->move($destinationPath, $filename);
-        //         $optionsModel = new Option;
-        //         $optionsModel->name = $filename;
-        //         $optionsModel->poll_id = $poll_id;
-        //         $optionsModel->save();
-        //     }
-        //     return 'yes';
-        // }
-
+        } else {
+            return response()->json(['data' => ['success' => false, 'message' => 'Unauthorized access']], 500);
+        }
 
     }
 }

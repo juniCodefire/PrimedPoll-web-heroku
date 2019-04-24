@@ -33,11 +33,11 @@ $router->post('api/login', 'SignInController@authenticate');
 $router->put('api/update', 'UpdateController@update');
 
 //Tino
-$router->post('password/reset', 'PasswordController@resetpassword');
+$router->post('api/password/reset', 'PasswordController@resetpassword');
 
-$router->put('password/change', 'ChangePasswordController@updatepassword');
+$router->put('api/password/change', 'ChangePasswordController@updatepassword');
 
-$router->post('polls/create', 'PollController@createpoll');
+$router->post('api/polls/create', 'PollController@createpoll');
 
 
 
