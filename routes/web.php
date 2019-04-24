@@ -16,10 +16,11 @@ $router->get('/', function () use ($router) {
 });
 
 
-$router->group(['middleware' => 'auth:api', 'prefix' => 'api'], function() use ($router)
-{
+$router->group(['middleware' => 'auth:api', 'prefix' => 'api'], function () use ($router) {
     //Put you controller inside this block for authrization or create a new ground with new prefix
 
+
+    $router->post('api/polls/create', 'PollController@createpoll');
 });
 
 $router->post('/api/register', 'SignupController@register');
@@ -36,8 +37,3 @@ $router->put('api/update', 'UpdateController@update');
 $router->post('api/password/reset', 'PasswordController@resetpassword');
 
 $router->put('api/password/change', 'ChangePasswordController@updatepassword');
-
-$router->post('api/polls/create', 'PollController@createpoll');
-
-
-
