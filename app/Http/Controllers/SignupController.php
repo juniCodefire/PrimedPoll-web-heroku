@@ -11,15 +11,17 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class SignupController extends Controller
 {
-    public function register(Request $request){
-		$this->validateRequest($request);
+		public function register(Request $request)
+		
+		{
+			$this->validateRequest($request);
 
-		$token = str_random(10);
+			$verifycode = (str_random(6));
 
-		$user = User::create([
-			'email' => $request->get('email'),
-			'password'=> Hash::make($request->get('password')),
-			'verify_token' => $token,
+			$user = User::create([
+				'email' => $request->input('email'),
+				'password' => Hash::make($request->get('password')),
+				'verifycode' => $verifycode
 			]);
 
 				Mail::to($user->email)->send(new VerifyEmail($user));
@@ -31,7 +33,7 @@ class SignupController extends Controller
     public function validateRequest(Request $request){
 		$rules = [
 			'email' => 'required|email|unique:users',
-    		'password' => 'required|min:6|confirmed',
+    	'password' => 'required|min:6|confirmed',
 		];
 		$messages = [
 			'required' => ':attribute is required',

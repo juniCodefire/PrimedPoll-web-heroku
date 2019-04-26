@@ -109,7 +109,9 @@
             Margin-bottom: 10px;
         }
 
-        h1, h2 {
+        h1,
+        h2,
+        p {
             font-size: 35px;
             font-weight: 300;
             text-align: center;
@@ -341,25 +343,9 @@
                                         <td>
                                             <h3>Hi <small>surname,</small> </h3>
                                             <h2>Welcome to PrimedPoll!</h2>
-                                            <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
-                                                <tbody>
-                                                    <tr>
-                                                        <td align="center">
-                                                            <table border="0" cellpadding="0" cellspacing="0">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <p >Please Click the link to verify your email
-                                                                        </p>
-                                                                        <td>
-                                                                            <a href="{{url('register/verify/' . $verify_token) }}">Verify Email</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+
+                                            <p>Verification Code: <br><Strong>{{ $user->verifycode }}</Strong></p>
+
                                         </td>
                                     </tr>
                                 </table>
@@ -382,13 +368,13 @@
                                 </td>
                             </tr>
                             <tr>
-                                    <td class="content-block">
-                                            <a href="#">Subscribe</a> To Our Newsletter
-                                    </td>
-                                </tr>
+                                <td class="content-block">
+                                    <a href="#">Subscribe</a> To Our Newsletter
+                                </td>
+                            </tr>
                             <tr>
                                 <td class="content-block powered-by">
-                                    <a href="http://primedsoft.com/">Powered by primedsoft limited  </a>.
+                                    <a href="http://primedsoft.com/">Powered by primedsoft limited </a>.
                                 </td>
                             </tr>
                         </table>

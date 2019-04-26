@@ -7,11 +7,8 @@ use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Poll;
 
-
-class User extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract
+class Intrest extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -20,12 +17,9 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      *
      * @var array
      */
-
+    
     protected $fillable = [
-      
-        'first_name', 'last_name', 'email', 'phone', 'category', 'dob', 'api_token',  'password', 'verifycode'
-
-
+        'intrest',
     ];
 
     /**
@@ -34,20 +28,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $hidden = [
-        'password',  'remember_token', 'email_verified_at','verify_token',
+        
     ];
-  
-      public function getJWTIdentifier() {
-        return $this->getKey();
-    }
 
-    public function getJWTCustomClaims() {
-        return [];
-    }
-
-  
-    public function polls()
-    {
-        return $this->hasMany('App\Poll');
-    }
 }
