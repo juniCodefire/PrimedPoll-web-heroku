@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Userinterests;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use libphonenumber\PhoneNumberType;
@@ -41,7 +42,6 @@ class CompleteRegistrationController extends Controller
           $userinterests->save();
 
         }
-
         $user->save();      
 		$res['message'] = "{$user->first_name} Updated Successfully!";        
         return response()->json($res, 200); 
@@ -64,6 +64,6 @@ class CompleteRegistrationController extends Controller
         ];
 
         $this->validate($request, $rules);
-        
+
     }
 }

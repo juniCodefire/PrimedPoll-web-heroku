@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+
 use Illuminate\Support\Facades\Auth;
+
 
 
 
@@ -15,10 +16,9 @@ class ProfileController extends Controller
      *
      * @return void
      */
-   
-    //
 
     public function profile(User $user)
+
     {
         $user = Auth::user();
              
