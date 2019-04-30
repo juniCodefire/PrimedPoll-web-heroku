@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
-use libphonenumber\PhoneNumberType;
+
+
 
 
 
@@ -16,14 +16,9 @@ class ProfileController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
-    //
+    public function profile(User $user)
 
-    public function profile()
     {
         $user = Auth::user();
              
