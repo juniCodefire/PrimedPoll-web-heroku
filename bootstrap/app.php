@@ -25,6 +25,9 @@ $app->withFacades();
 
 $app->withEloquent();
 
+class_alias('JD\Cloudder\Facades\Cloudder', 'Cloudder');
+$app->register(JD\Cloudder\CloudderServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -63,10 +66,10 @@ $app->middleware([
 
 $app->routeMiddleware([
     'jwt.auth' => App\Http\Middleware\JwtMiddleware::class,
-    'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
     'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
     'JWTFactory' => Tymon\JWTAuthFacades\JWTFactory::class,
     'auth' => App\Http\Middleware\Authenticate::class,
+    'admin.auth' => App\Http\Middleware\AdminSecurePass::class,
 ]);
 
 /*
