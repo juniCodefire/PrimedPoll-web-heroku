@@ -24,8 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('verifycode')->nullable();
             $table->string('phone')->nullable();
             $table->string('bio')->nullable();
-            $table->string('image_name')->nullable();
-            $table->string('image_url')->nullable();
+            $table->string('image')->nullable();
             $table->string('dob')->nullable();
             $table->timestamps();
         });

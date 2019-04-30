@@ -16,11 +16,11 @@ class EditProfileController extends Controller
     {
         $user = Auth::user();
 
-        if ($request->hasFile('image_name') && $request->file('image_name')->isValid()){
+        if ($request->hasFile('image') && $request->file('image')->isValid()){
 
-            $user = $request->file('image_name');
-            $filename = $request->file('image_name')->getClientOriginalName();
-            $image_name = $request->file('image_name')->getRealPath();
+            $user = $request->file('image');
+            $filename = $request->file('image')->getClientOriginalName();
+            $image = $request->file('image')->getRealPath();
             Cloudder::upload($image_name, null);
 
             list($width, $height) = getimagesize($image_name);
@@ -37,8 +37,7 @@ class EditProfileController extends Controller
     public function saveImages(Request $request, $image_url)
     {
         $user = Auth::user();
-        $user->image_name = $request->file('image_name')->getClientOriginalName();
-        $user->image_url = $image_url;
+        $user->image = $image_url;
 
        $user->save();
    }
