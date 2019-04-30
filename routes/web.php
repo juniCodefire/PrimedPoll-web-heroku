@@ -15,7 +15,14 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+
+$router->group(['middleware' => 'auth:api', 'prefix' => 'api'], function () use ($router) {
+    //Put you controller inside this block for authrization or create a new ground with new prefix
+
+});
+
 //****************Users Routes**************** */
+
 $router->post('/api/register', 'SignupController@register');
 $router->post('api/register/verify', 'VerifyUserController@verifyUser');
 
@@ -27,9 +34,12 @@ $router->put('api/update', 'CompleteRegistrationController@update');
 // This controller displays all user information 
 $router->get('api/profile', 'ProfileController@profile');
 
+
 //Tino
-$router->post('password/reset', 'PasswordController@resetpassword');
-$router->put('password/change', 'ChangePasswordController@updatepassword');
+$router->post('api/password/reset', 'PasswordController@resetpassword');
+
+$router->put('api/password/change', 'ChangePasswordController@updatepassword');
+
 //****************End Routes****************** */
 
 //****************Admin Custom Routes**************** */
@@ -59,5 +69,8 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     //Iro
       $router->put('/edit', 'EditProfileController@editprofile');
     $router->post('/upload', 'EditProfileController@uploadImage');
+  
+  //Tino
+   $router->post('polls/create', 'PollController@createpoll');
 
 });
