@@ -26,13 +26,12 @@ class VerifyUserController extends Controller
 
         if ($checkCode) {
 
-        $user = User::where('verifycode', $verifycode)->first();
+            $user = User::where('verifycode', $verifycode)->first();
 
             if ($user->email_verified_at == null){
                 $user->email_verified_at = date("Y-m-d H:i:s");
                 $user->save();
-                
-                $msg['New Token'] = $token;
+
                 $msg = "Account is verified. You can now login.";
             } else {
                 $msg = "Account verified already.";
