@@ -18,16 +18,36 @@ class SignupController extends Controller
 
 			$verifycode = (str_random(6));
 
-			$user = User::create([
+			//start temporay transaction
+			DB::beginTransaction();
+
+			try {
+				
+				$user = User::create([
 				'email' => $request->input('email'),
 				'password' => Hash::make($request->get('password')),
-				'verifycode' => $verifycode
-			]);
+					'verifycode' => $verifycode
+				]);
 
 				Mail::to($user->email)->send(new VerifyEmail($user));
 
 				$msg['success'] = "Thanks for signing up! A Verification Mail has been Sent to $user->email";
+				
+				//if operation was successful save changes to database
+				DB::commit();
+
 				return response()->json($msg, 200);
+
+			}catch(\Exception $e) {
+
+				//if any operation fails, Thanos snaps finger - user was not created
+				DB::rollBack();
+
+				$msg['error'] = "Account Not created, Try Again!";
+				return response()->json($msg, 422);
+				
+
+			}
 		}	
 	
     public function validateRequest(Request $request){
