@@ -32,7 +32,7 @@ class VerifyUserController extends Controller
                 $user->email_verified_at = date("Y-m-d H:i:s");
                 $user->save();
 
-                $msg = "Account is verified. You can now login.";
+                $msg = "Account is verified.";
             } else {
                 $msg = "Account verified already.";
              }
