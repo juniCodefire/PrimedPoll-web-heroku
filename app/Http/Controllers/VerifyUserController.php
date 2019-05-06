@@ -46,7 +46,7 @@ class VerifyUserController extends Controller
                 return response()->json($msg, 200);
              }
 
-             $msg["message"] =  "Account is is already verified.";
+             $msg["message"] =  "Account is already verified";
              $msg['verified'] = true;
 
 
