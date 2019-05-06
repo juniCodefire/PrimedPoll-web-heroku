@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
+use Illuminate\Support\Facades\Auth;
+
 class VerifyUserController extends Controller
 {
     /**
@@ -32,15 +34,32 @@ class VerifyUserController extends Controller
                 $user->email_verified_at = date("Y-m-d H:i:s");
                 $user->save();
                 
-                $msg['New Token'] = $token;
-                $msg = "Account is verified.";
-            } else {
-                $msg = "Account verified already.";
+                //generate new token for user
+                $token = Auth::guard('api')->login($user);
+
+                $msg["message"] =  "Account is verified";
+
+                $msg['verified'] = true;
+
+                $msg['token'] = $token;
+
+                return response()->json($msg, 200);
              }
+
+             $msg["message"] =  "Account is is already verified.";
+             $msg['verified'] = true;
+
+
+             return response()->json($msg, 200);
+
         } else{
-            $msg = "Account does not exist";
+
+            $msg["message"] = "Account with code does not exist!";
+
+            return response()->json($msg, 409);
+
         }
             
-        return response()->json($msg, 201);
+        
     }
 }
