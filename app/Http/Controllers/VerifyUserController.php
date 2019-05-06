@@ -14,7 +14,7 @@ class VerifyUserController extends Controller
      * @return void
      */
  
-	public function verifyUser(Request $request, User $user)
+    public function verifyUser(Request $request, User $user)
     {
         $this->validate($request, [
             'verifycode' => 'required|max:6'
@@ -26,12 +26,13 @@ class VerifyUserController extends Controller
 
         if ($checkCode) {
 
-            $user = User::where('verifycode', $verifycode)->first();
+        $user = User::where('verifycode', $verifycode)->first();
 
             if ($user->email_verified_at == null){
                 $user->email_verified_at = date("Y-m-d H:i:s");
                 $user->save();
-
+                
+                $msg['New Token'] = $token;
                 $msg = "Account is verified.";
             } else {
                 $msg = "Account verified already.";
@@ -40,6 +41,6 @@ class VerifyUserController extends Controller
             $msg = "Account does not exist";
         }
             
-		return response()->json($msg, 201);
-	}
+        return response()->json($msg, 201);
+    }
 }
