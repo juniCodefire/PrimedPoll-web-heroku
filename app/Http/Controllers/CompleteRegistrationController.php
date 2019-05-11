@@ -25,7 +25,7 @@ class CompleteRegistrationController extends Controller
 
 
 
-    public function update(User $user, Userinterest $userinterest, Request $request){
+    public function update(User $user, Request $request){
     
         $user = Auth::user();
        
@@ -41,6 +41,7 @@ class CompleteRegistrationController extends Controller
         $interests_length = count($interests);
 
         for ($i=0; $i < $interests_length; $i++) { 
+           $userinterest = new Userinterest;
            $userinterest->owner_id = $user->id;
            $userinterest->interest_id = $interests[$i];
            $userinterest->save();
