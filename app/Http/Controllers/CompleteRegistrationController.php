@@ -37,7 +37,7 @@ class CompleteRegistrationController extends Controller
         $user->dob = $request->input('dob');
         $user->image = 'user.jpg';
 
-        $interests = $request->has('interests');
+        $interests = $request->input('interests');
         
         for($interests as $interest) {
           $userinterest->owner_id = $user->id;
