@@ -18,6 +18,10 @@ class CompleteRegistrationController extends Controller
      *
      * @return void
      */
+    public function __construct()
+    {
+        $this->middleware('user');
+    }
 
     public function update(User $user, Userinterest $userinterest, Request $request){
     
@@ -55,7 +59,7 @@ class CompleteRegistrationController extends Controller
         'last_name' => 'unique:users,last_name,string|required',
         'phone' => 'users,phone,required|phone:NG,US,mobile',
         'dob' => 'date',
-        'interests' => 'array|required',
+        'interests' => 'required',
         ];
 
         $messages = [
