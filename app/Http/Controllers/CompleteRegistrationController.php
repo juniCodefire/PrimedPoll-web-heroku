@@ -38,13 +38,14 @@ class CompleteRegistrationController extends Controller
         $user->image = 'user.jpg';
 
         $interests = $request->input('interests');
-        
-        foreach ($interests as $interest) {
-          $userinterest->owner_id = $user->id;
-          $userinterest->interest_id = $interest;
-          $userinterest->save();
+        $interests_length = count($interests);
 
+        for ($i=0; $i < $interests_length; $i++) { 
+           $userinterest->owner_id = $user->id;
+           $userinterest->interest_id = $interests[$i];
+           $userinterest->save();
         }
+         
         $user->save();      
 	      return response()->json(['data' =>['success' => true, 'user' => $user, 'message' => 'Registration Successful']], 200);
     }
