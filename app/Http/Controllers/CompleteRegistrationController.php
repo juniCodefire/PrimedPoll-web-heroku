@@ -20,8 +20,10 @@ class CompleteRegistrationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('user');
+       $this->middleware('auth');
     }
+
+
 
     public function update(User $user, Userinterest $userinterest, Request $request){
     
