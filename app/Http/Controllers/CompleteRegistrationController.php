@@ -57,9 +57,9 @@ class CompleteRegistrationController extends Controller
     {
 
        $rules = [
-        'first_name' => 'users,first_name,string|required',
-        'last_name' => 'unique:users,last_name,string|required',
-        'phone' => 'users,phone,required|phone:NG,US,mobile',
+        'first_name' => 'string|required',
+        'last_name' => 'string|required',
+        'phone' => 'required|phone:NG,US,mobile',
         'dob' => 'date',
         'interests' => 'required',
         ];
