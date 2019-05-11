@@ -37,17 +37,15 @@ class CompleteRegistrationController extends Controller
         $user->dob = $request->input('dob');
         $user->image = 'user.jpg';
 
+        $interests = $request->input('interests');
 
+        foreach ($interests as $interest) {
 
-        // $interests = $request->input('interests');
+          $userinterest->owner_id = $user->id;
+          $userinterest->interest_id = $interest;
+          $userinterest->save();
 
-        // foreach ($interests as $interest) {
-
-        //   $userinterest->owner_id = $user->id;
-        //   $userinterest->interest_id = $interest;
-        //   $userinterest->save();
-
-        // }
+        }
         $user->save();      
 		$res['message'] = "{$user->first_name} Updated Successfully!";        
         return response()->json($res, 200); 
@@ -59,9 +57,9 @@ class CompleteRegistrationController extends Controller
        $rules = [
         'first_name' => 'string|required',
         'last_name' => 'string|required',
-        'phone' => 'required|phone:NG,US,mobile',
-        'dob' => 'date',
-        // 'interests' => 'required',
+        'phone' => 'phone:NG,US,mobile|required',
+        'dob' => 'date|required',
+        'interests' => 'required',
         ];
 
         $messages = [
