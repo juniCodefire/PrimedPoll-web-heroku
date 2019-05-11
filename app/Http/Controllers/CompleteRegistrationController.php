@@ -46,7 +46,7 @@ class CompleteRegistrationController extends Controller
 
         }
         $user->save();      
-	      return response()->json(['data' =>['success' => true, 'message' => 'Registration Successful']], 200);
+	      return response()->json(['data' =>['success' => true, 'user' => $user, 'message' => 'Registration Successful']], 200);
     }
 
     public function validateRequest($request)
