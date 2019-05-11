@@ -19,7 +19,7 @@ class CompleteRegistrationController extends Controller
      * @return void
      */
 
-    public function update(User $user, Userinterest $userinterest, Request $request)
+    public function update(User $user, Userinterest $userinterest, Request $request){
     
         $user = Auth::user();
        
