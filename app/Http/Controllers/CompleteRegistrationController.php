@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Userinterests;
+use App\Userinterest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +19,8 @@ class CompleteRegistrationController extends Controller
      * @return void
      */
 
-    public function update(User $user, Userinterests $userinterests, Request $request)
-    {
+    public function update(User $user, Userinterest $userinterest, Request $request)
+    
         $user = Auth::user();
        
         $this->validateRequest($request);
@@ -37,9 +37,9 @@ class CompleteRegistrationController extends Controller
 
         foreach ($interests as $interest) {
 
-          $userinterests->owner_id = $user->id;
-          $userinterests->interest_id = $interest;
-          $userinterests->save();
+          $userinterest->owner_id = $user->id;
+          $userinterest->interest_id = $interest;
+          $userinterest->save();
 
         }
         $user->save();      
