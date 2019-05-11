@@ -39,15 +39,15 @@ class CompleteRegistrationController extends Controller
 
 
 
-        $interests = $request->input('interests');
+        // $interests = $request->input('interests');
 
-        foreach ($interests as $interest) {
+        // foreach ($interests as $interest) {
 
-          $userinterest->owner_id = $user->id;
-          $userinterest->interest_id = $interest;
-          $userinterest->save();
+        //   $userinterest->owner_id = $user->id;
+        //   $userinterest->interest_id = $interest;
+        //   $userinterest->save();
 
-        }
+        // }
         $user->save();      
 		$res['message'] = "{$user->first_name} Updated Successfully!";        
         return response()->json($res, 200); 
@@ -61,7 +61,7 @@ class CompleteRegistrationController extends Controller
         'last_name' => 'string|required',
         'phone' => 'required|phone:NG,US,mobile',
         'dob' => 'date',
-        'interests' => 'required',
+        // 'interests' => 'required',
         ];
 
         $messages = [
