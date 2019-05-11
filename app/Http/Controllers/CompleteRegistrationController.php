@@ -29,7 +29,8 @@ class CompleteRegistrationController extends Controller
     
         $user = Auth::user();
        
-        $this->validateRequest($request);
+        // $this->validateRequest($request);
+        return response()->json(['data' =>['error' => fasle, 'interests' => $request->input('interests')]], 401);
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
@@ -51,7 +52,7 @@ class CompleteRegistrationController extends Controller
 
     public function validateRequest($request)
     {
-      return response()->json(['data' =>['success' => true, 'interests' => $request->input('interests')]], 200);
+    
        $rules = [
         'first_name' => 'string|required',
         'last_name' => 'string|required',
