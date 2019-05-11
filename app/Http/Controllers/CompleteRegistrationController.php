@@ -40,26 +40,24 @@ class CompleteRegistrationController extends Controller
         $interests = $request->input('interests');
 
         foreach ($interests as $interest) {
-
           $userinterest->owner_id = $user->id;
           $userinterest->interest_id = $interest;
           $userinterest->save();
 
         }
         $user->save();      
-		$res['message'] = "{$user->first_name} Updated Successfully!";        
-        return response()->json($res, 200); 
+	      return response()->json(['data' =>['success' => true, 'message' => 'Registration Successful']], 200);
     }
 
     public function validateRequest($request)
     {
-
+      return response()->json(['data' =>['success' => true, 'interests' => $request->input('interests')]], 200);
        $rules = [
         'first_name' => 'string|required',
         'last_name' => 'string|required',
         'phone' => 'phone:NG,US,mobile|required',
         'dob' => 'date|required',
-        'interests' => 'required',
+        'interests' => 'array|required',
         ];
 
         $messages = [
