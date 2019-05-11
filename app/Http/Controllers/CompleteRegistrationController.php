@@ -29,8 +29,7 @@ class CompleteRegistrationController extends Controller
     
         $user = Auth::user();
        
-        // $this->validateRequest($request);
-        return response()->json(['data' =>['error' => false, 'interests' => $request->input('interests')]], 401);
+        $this->validateRequest($request);
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
