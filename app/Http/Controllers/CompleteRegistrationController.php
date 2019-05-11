@@ -55,7 +55,7 @@ class CompleteRegistrationController extends Controller
         'last_name' => 'unique:users,last_name,string|required',
         'phone' => 'users,phone,required|phone:NG,US,mobile',
         'dob' => 'date',
-        'interest' => 'array|required',
+        'interests' => 'array|required',
         ];
 
         $messages = [
