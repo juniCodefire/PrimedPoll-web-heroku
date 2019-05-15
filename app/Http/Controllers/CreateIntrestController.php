@@ -31,7 +31,7 @@ class CreateIntrestController extends Controller
             'interest'  => 'required',
         ]); 
 
-        $interest->intrest = $request->input('intrest');
+        $interest->intrest = $request->input('interest');
         $interest->save();   
         return response()->json(['data' =>['success' => true, 'messsage' => 'New Interest Added']], 201); 
     }
