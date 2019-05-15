@@ -21,39 +21,39 @@ class CreateIntrestController extends Controller
     
     public function index(Request $request) {
 
-       $intrest = Intrest::all();    
-       return response()->json(['data' =>['success' => true, 'intrest' => $intrest]], 200); 
+       $interest = Intrest::all();    
+       return response()->json(['data' =>['success' => true, 'interest' => $interest]], 200); 
     }
 
-    public function store(Request $request, Intrest $intrest) {
+    public function store(Request $request, Intrest $interest) {
 
         $this->validate($request, [
-            'intrest'  => 'required',
+            'interest'  => 'required',
         ]); 
 
-        $intrest->intrest = $request->input('intrest');
-        $intrest->save();   
-        return response()->json(['data' =>['success' => true, 'messsage' => 'New Intrest Added']], 201); 
+        $interest->intrest = $request->input('intrest');
+        $interest->save();   
+        return response()->json(['data' =>['success' => true, 'messsage' => 'New Interest Added']], 201); 
     }
 
-    public function update(Request $request, $intrest_id) {
+    public function update(Request $request, $interest_id) {
         $this->validate($request, [
-            'intrest'  => 'required',
+            'interest'  => 'required',
         ]);
 
-        $data = Intrest::findOrfail($intrest_id);
+        $data = Intrest::findOrfail($interest_id);
 
-        $data->intrest = $request->input('intrest');
+        $data->intrest = $request->input('interest');
         $data->save();
-        return response()->json(['data' =>['success' => true, 'messsage' => 'Intrest Updated']], 200);
+        return response()->json(['data' =>['success' => true, 'messsage' => 'Interest Updated']], 200);
     }
 
 
-    public function destroy(Request $request, $intrest_id) {
+    public function destroy(Request $request, $interest_id) {
 
-        $data = Intrest::findOrfail($intrest_id);
+        $data = Intrest::findOrfail($interest_id);
         $data->delete();
-        return response()->json(['data' =>['success' => true, 'messsage' => 'Intrest Deleted']], 200);
+        return response()->json(['data' =>['success' => true, 'messsage' => 'Interest Deleted']], 200);
     }
 
 

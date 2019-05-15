@@ -50,10 +50,10 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     //************************************* */
     $router->get('admin/profile', 'AdminProfileController@adminData');
     $router->put('admin/change/password', 'AdminProfileController@updatePass');
-    $router->post('admin/create/intrest', 'CreateIntrestController@store');
-    $router->get('admin/show/all/intrest', 'CreateIntrestController@index');
-    $router->put('admin/edit/intrest/{intrest_id}', 'CreateIntrestController@update');
-    $router->delete('admin/delete/intrest/{intrest_id}', 'CreateIntrestController@destroy');
+    $router->post('admin/create/interest', 'CreateIntrestController@store');
+    $router->get('admin/show/all/interest', 'CreateIntrestController@index');
+    $router->put('admin/edit/interest/{interest_id}', 'CreateIntrestController@update');
+    $router->delete('admin/delete/interest/{interest_id}', 'CreateIntrestController@destroy');
     //************************************** */
     
     //Iro
