@@ -33,7 +33,7 @@ class CreateIntrestController extends Controller
 
         $interest->intrest = $request->input('interest');
         $interest->save();   
-        return response()->json(['data' =>['success' => true, 'messsage' => 'New Interest Added']], 201); 
+        return response()->json(['data' =>['success' => true, 'message' => 'New Interest Added']], 201); 
     }
 
     public function update(Request $request, $interest_id) {
@@ -45,7 +45,7 @@ class CreateIntrestController extends Controller
 
         $data->intrest = $request->input('interest');
         $data->save();
-        return response()->json(['data' =>['success' => true, 'messsage' => 'Interest Updated']], 200);
+        return response()->json(['data' =>['success' => true, 'message' => 'Interest Updated']], 200);
     }
 
 
@@ -53,7 +53,7 @@ class CreateIntrestController extends Controller
 
         $data = Intrest::findOrfail($interest_id);
         $data->delete();
-        return response()->json(['data' =>['success' => true, 'messsage' => 'Interest Deleted']], 200);
+        return response()->json(['data' =>['success' => true, 'message' => 'Interest Deleted']], 200);
     }
 
 
