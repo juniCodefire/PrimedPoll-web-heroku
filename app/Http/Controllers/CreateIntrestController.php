@@ -45,7 +45,7 @@ class CreateIntrestController extends Controller
 
         $data->interest = $request->input('interest');
         $data->save();
-        return response()->json(['data' =>['success' => true, 'message' => 'Interest Updated']], 200);
+        return response()->json(['data' =>['success' => true, 'data' => $data, 'message' => 'Interest Updated']], 200);
     }
 
 
