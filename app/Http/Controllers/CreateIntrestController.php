@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Intrest;
+use App\Interest;
 
 class CreateIntrestController extends Controller
 {
@@ -21,17 +21,17 @@ class CreateIntrestController extends Controller
     
     public function index(Request $request) {
 
-       $interest = Intrest::all();    
+       $interest = Interest::all();    
        return response()->json(['data' =>['success' => true, 'interest' => $interest]], 200); 
     }
 
-    public function store(Request $request, Intrest $interest) {
+    public function store(Request $request, Interest $interest) {
 
         $this->validate($request, [
             'interest'  => 'required',
         ]); 
 
-        $interest->intrest = $request->input('interest');
+        $interest->interest = $request->input('interest');
         $interest->save();   
         return response()->json(['data' =>['success' => true, 'message' => 'New Interest Added']], 201); 
     }
@@ -41,9 +41,9 @@ class CreateIntrestController extends Controller
             'interest'  => 'required',
         ]);
 
-        $data = Intrest::findOrfail($interest_id);
+        $data = Interest::findOrfail($interest_id);
 
-        $data->intrest = $request->input('interest');
+        $data->interest = $request->input('interest');
         $data->save();
         return response()->json(['data' =>['success' => true, 'message' => 'Interest Updated']], 200);
     }
@@ -51,7 +51,7 @@ class CreateIntrestController extends Controller
 
     public function destroy(Request $request, $interest_id) {
 
-        $data = Intrest::findOrfail($interest_id);
+        $data = Interest::findOrfail($interest_id);
         $data->delete();
         return response()->json(['data' =>['success' => true, 'message' => 'Interest Deleted']], 200);
     }
