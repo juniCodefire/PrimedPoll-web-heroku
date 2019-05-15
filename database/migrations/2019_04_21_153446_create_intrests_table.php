@@ -13,9 +13,9 @@ class CreateIntrestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('intrests', function (Blueprint $table) {
+        Schema::create('interests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('intrest');
+            $table->string('interest');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateIntrestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('intrests');
+        Schema::dropIfExists('interests');
     }
 }
