@@ -34,7 +34,7 @@ $router->put('api/password/change', 'ChangePasswordController@updatepassword');
 
 //****************Admin Custom Routes**************** */
 $router->post('api/admin/access/login', 'SignInController@adminLogin');
-$router->get('api/user/show/all/interest', 'ShowIntrestController@index');
+$router->get('api/user/show/all/interest', 'ShowInterestController@index');
 //****************End Routes****************** */
 
 
