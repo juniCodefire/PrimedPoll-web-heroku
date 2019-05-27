@@ -34,13 +34,13 @@ class VerifyUserController extends Controller
                 $user->email_verified_at = date("Y-m-d H:i:s");
                 $user->save();
                 
-                $msg["success"] = "Account is verified. You can now login.";
-                $msg['verified'] = True;
+                $msg["message"] = "Account is verified. You can now login.";
+                $msg['verified'] = "true";
                 return response()->json($msg, 200);
 
             } else {
-                $msg["status"] = "Account verified already. Please Login";
-                $msg['verified'] = True;
+                $msg["message"] = "Account verified already. Please Login";
+                $msg['verified'] = "done";
 
                 return response()->json($msg, 200);
              }
