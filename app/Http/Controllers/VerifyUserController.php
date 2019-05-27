@@ -33,9 +33,13 @@ class VerifyUserController extends Controller
             if ($user->email_verified_at == null){
                 $user->email_verified_at = date("Y-m-d H:i:s");
                 $user->save();
+
+                  //generate new token for user
+                $token = Auth::guard('api')->login($user);
                 
                 $msg["message"] = "Account is verified. You can now login.";
                 $msg['verified'] = "true";
+                $msg['token'] =  $token;
                 return response()->json($msg, 200);
 
             } else {
