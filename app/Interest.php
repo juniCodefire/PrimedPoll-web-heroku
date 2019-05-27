@@ -31,4 +31,9 @@ class Interest extends Model implements AuthenticatableContract, AuthorizableCon
         
     ];
 
+    public function poll()
+    {
+        return $this->hasMany('App\Poll');
+    }
+
 }

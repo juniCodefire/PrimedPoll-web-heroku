@@ -31,4 +31,24 @@ class Userinterest extends Model implements AuthenticatableContract, Authorizabl
         
     ];
 
+    public function polls()
+    {
+        return $this->hasMany('App\Poll');
+    }
+
+    public function interest()
+    {
+        return $this->belongsTo('App\Interest');
+    }
+
+    public function options()
+    {
+        return $this->hasMany('App\Option');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }

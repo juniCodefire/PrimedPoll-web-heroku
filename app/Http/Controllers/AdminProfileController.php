@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Admin;
 
+
 class AdminProfileController extends Controller
 {
     /**
@@ -39,7 +40,5 @@ class AdminProfileController extends Controller
 
         return response()->json(['data' =>['success' => true, 'messsage' => 'Password Updated']], 200); 
     }
-
-    //
 
 }

@@ -341,7 +341,7 @@
                                 <table border="0" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td>
-                                            <h3>Hi <small>surname,</small> </h3>
+                                            <h3>Hi <small>{{$user->email}}</small>,</h3>
                                             <h2>Welcome to PrimedPoll!</h2>
 
                                             <p>Verification Code: <br><Strong>{{ $user->verifycode }}</Strong></p>

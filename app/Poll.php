@@ -20,7 +20,7 @@ class Poll extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $fillable = [
-        'interest', 'poll', 'expirydate',
+        'interest', 'poll', 'expirydate', 'startdate',
     ];
 
     /**
@@ -43,6 +43,16 @@ class Poll extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function options()
     {
         return $this->hasMany('App\Option');
+    }
+    
+    public function interest()
+    {
+        return $this->hasMany('App\Interest');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany('App\Vote');
     }
 
     public function user()

@@ -16,14 +16,19 @@ class CreateUserinterestsTable extends Migration
         Schema::create('userinterests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('owner_id')->unsigned();
-            $table->integer('interest_id');
+            $table->unsignedInteger('interest_id');
             $table->timestamps();
 
 
             $table->foreign('owner_id')
-            ->references('id')
-            ->on('users')
-            ->onDelete('cascade');
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('interest_id')
+                ->references('id')
+                ->on('interests')
+                ->onDelete('cascade');
         });
     }
 

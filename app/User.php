@@ -34,7 +34,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      * @var array
      */
     protected $hidden = [
-        'password',  'remember_token', 'email_verified_at','verify_token',
+        'password',  'remember_token', 'email_verified_at','verifycode',
     ];
   
       public function getJWTIdentifier() {
@@ -49,5 +49,20 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function polls()
     {
         return $this->hasMany('App\Poll');
+    }
+
+    public function interest()
+    {
+        return $this->hasMany('App\Interest');
+    }
+
+    public function options()
+    {
+        return $this->hasMany('App\Option');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany('App\Vote');
     }
 }

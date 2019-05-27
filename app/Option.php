@@ -44,4 +44,14 @@ class Option extends Model implements JWTSubject, AuthenticatableContract, Autho
     {
         return $this->belongsTo('App\Poll');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany('App\Vote');
+    }
 }

@@ -25,35 +25,25 @@ class ChangePasswordController extends Controller
     // Do a validation for the input
         $this->validate($request, [
         	'verifycode' => 'required|max:6|min:5',
-        	'newpassword' => 'required',
+        	'password'   => 'required|min:6|confirmed',
         ]);
 
-        $userEmail = $request->query('email');
-        $verifycode = $request->query('verifycode');
-        $newPassword = $request->input('newpassword');
-        $verifyPassword = $request->input('verifypassword');
+        $verifycode = $request->input('verifycode');
+        $password = $request->input('password');
 
-       $checkverifyemail = User::where('email', $userEmail)->first();
+        $checkverifyemail = User::where('verifycode', $verifycode)->first();
 
        if ($checkverifyemail == null)
        {
-        return response()->json(['data' =>['success' => false, 'message' => 'Email does not exist']], 400);
-       } elseif ($verifycode !== $checkverifyemail->verifycode)
-       {
-        return response()->json(['data' =>['success' => false, 'message' => 'Verifycode is invalid']], 400);
-       } elseif ($verifyPassword !== $newPassword)
-       {
-        return response()->json(['data' =>['success' => false, 'message' => 'Passwords not match']], 400);
-       }
-
+        return response()->json(['data' =>['error' => false, 'message' => 'Verification code does not exist']], 401);
+       }else{  
         try{
-            $checkverifyemail->password = Hash::make($verifyPassword);
-            // Mail::to($VerifyEmail->email)->send(new NewPassword($VerifyEmail));
+            $checkverifyemail->password = Hash::make($password);
             $checkverifyemail->save();
             return response()->json(['data' => ['success' => true, 'message' => "Your password has been changed"]], 200);
           } catch (Exception $e) {
-             return response()->json(['data' => ['success' => true, 'message' => "Error changing password...."]], 500);
+             return response()->json(['data' => ['success' => true, 'message' => "Error changing password...."]], 400);
           }
+       }
     }
-
 }
