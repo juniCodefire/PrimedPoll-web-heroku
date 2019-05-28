@@ -51,11 +51,11 @@ class UserCompleteRegistrationController extends Controller
     public function validateRequest($request)
     {
        $rules = [
-        'first_name' => 'required',
+        'first_name' => '|required',
         'last_name' => 'string|required',
         'phone' => 'phone:NG,US,mobile|required',
         'dob' => 'date|required',
-        'interests' => 'array|required',
+        'interests.*.interest_id' => 'required',
         ];
 
         $messages = [
