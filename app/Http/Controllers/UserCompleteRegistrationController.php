@@ -55,7 +55,7 @@ class UserCompleteRegistrationController extends Controller
         'last_name' => 'string|required',
         'phone' => 'phone:NG,US,mobile|required',
         'dob' => 'date|required',
-        'interests.*.interest_id' => 'required',
+        'interests' => 'array|required',
         ];
 
         $messages = [
