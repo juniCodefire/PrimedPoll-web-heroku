@@ -50,7 +50,7 @@ class UserFeedsController extends Controller
 
                 $data = [
                     'poll_id'   => $fetch_poll->id,
-                    'poll'      => $fetch_poll->name,
+                    'poll'      => $fetch_poll->question,
                     'interest'  => $fetch_interest->title,
                     'poll_owner_id' => $fetch_poll->owner_id,
                     'firstname' => $fetch_user->first_name,

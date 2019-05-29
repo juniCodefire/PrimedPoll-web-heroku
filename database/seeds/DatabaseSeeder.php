@@ -29,6 +29,9 @@ class DatabaseSeeder extends Seeder
                         'first_name' => $faker->firstName,
                         'last_name' => $faker->lastName,
                         'email' => trim( strtolower( $email ) ),
+                        'dob' => "1993-05-15",
+                        'phone' => "+2347060959269",
+                        'image' => 'https://res.cloudinary.com/iro/image/upload/v1552487696/Backtick/noimage.png',
                         'email_verified_at' => new Datetime(),
                         'password' => Hash::make('password'),
                     ]);
@@ -60,7 +63,8 @@ class DatabaseSeeder extends Seeder
                     \App\Poll::create([
                         'question' => $faker->sentence,
                         'owner_id' => $faker->randomElement($owner_id),
-                        'interest_id' => $faker->randomElement($interest_id)
+                        'interest_id' => $faker->randomElement($interest_id),
+                        'startdate' => new Datetime()
                     ]);
                }
 
