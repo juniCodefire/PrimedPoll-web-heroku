@@ -21,7 +21,7 @@ class UserCompleteRegistrationController extends Controller
         $user = Auth::guard('api')->user();
 
         $this->validateRequest($request);
-
+        try{
         $default_image = 'https://res.cloudinary.com/iro/image/upload/v1552487696/Backtick/noimage.png';
 
         $user->first_name = $request->input('first_name');
@@ -30,22 +30,21 @@ class UserCompleteRegistrationController extends Controller
         $user->dob = $request->input('dob');
         $user->image = $default_image;
 
-        $items = $request->input('interests');
-        
-        foreach($items as $item) {
-            $userinterest = new Userinterest;
-            $userinterest->owner_id = $user->id;
-            $userinterest->interest_id = $item['interest_id'];
-            $userinterest->save();
-        }
+        $interest_ids = $request->input('interest_ids');
 
+        $interest = $user->interest()->syncWithoutDetaching($interest_ids);
+ 
         $user->save();      
 
-        $msg['success'] = true;
+        $msg['success'] = "Registration Completed";
         $msg['user'] = $user;
-        $msg['message'] = "Registration Completed";
-        $msg['Userinterests'] = Userinterest::where('owner_id', Auth::user()->id)->with('interest')->get();
+        $msg['interests'] = $user->interest()->get();
+        $msg['interest'] = $interest;
         return response()->json($msg, 201);
+        }catch (\Exception $e) {
+            return response()->json(['message'=> "Opps! Something went wrong!"], 400);
+        }
+
     }
 
     public function validateRequest($request)
@@ -55,7 +54,8 @@ class UserCompleteRegistrationController extends Controller
         'last_name' => 'string|required',
         'phone' => 'phone:NG,US,mobile|required',
         'dob' => 'date|required',
-        'interests.*.interest_id' => 'required',
+        'interest_ids' => 'required|array|min:5',
+        'interest_ids.*' => 'required|integer',
         ];
 
         $messages = [

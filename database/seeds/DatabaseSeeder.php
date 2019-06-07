@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
                         'last_name' => $faker->lastName,
                         'email' => trim( strtolower( $email ) ),
                         'dob' => "1993-05-15",
-                        'phone' => "+2347060959269",
+                        'phone' => "+2347837867762",
                         'image' => 'https://res.cloudinary.com/iro/image/upload/v1552487696/Backtick/noimage.png',
                         'email_verified_at' => new Datetime(),
                         'password' => Hash::make('password'),
@@ -46,38 +46,38 @@ class DatabaseSeeder extends Seeder
              }
 
 
-              $faker = Faker::create();
-              $interest_id = DB::table('interests')->pluck('id');
-              $owner_id = DB::table('users')->pluck('id');
-               foreach (range(1,20) as $index){
-                    \App\Userinterest::create([
-                        'owner_id' => $faker->randomElement($owner_id),
-                        'interest_id' => $faker->randomElement($interest_id)
-                    ]);
-                }
+            //   $faker = Faker::create();
+            //   $interest_id = DB::table('interests')->pluck('id');
+            //   $owner_id = DB::table('users')->pluck('id');
+            //    foreach (range(1,20) as $index){
+            //         \App\Userinterest::create([
+            //             'owner_id' => $faker->randomElement($owner_id),
+            //             'interest_id' => $faker->randomElement($interest_id)
+            //         ]);
+            //     }
 
-             $faker = Faker::create();
-              $interest_id = DB::table('interests')->pluck('id');
-              $owner_id = DB::table('users')->pluck('id');
-               foreach (range(1,50) as $index){
-                    \App\Poll::create([
-                        'question' => $faker->sentence,
-                        'owner_id' => $faker->randomElement($owner_id),
-                        'interest_id' => $faker->randomElement($interest_id),
-                        'startdate' => new Datetime()
-                    ]);
-               }
+            //  $faker = Faker::create();
+            //   $interest_id = DB::table('interests')->pluck('id');
+            //   $owner_id = DB::table('users')->pluck('id');
+            //    foreach (range(1,50) as $index){
+            //         \App\Poll::create([
+            //             'question' => $faker->sentence,
+            //             'owner_id' => $faker->randomElement($owner_id),
+            //             'interest_id' => $faker->randomElement($interest_id)
+            //         ]);
+            //    }
 
-             $faker = Faker::create();
-              $owner_id = DB::table('users')->pluck('id');
-              $polled_id = DB::table('polls')->pluck('id');
-               foreach (range(1,50) as $index){
-                    \App\Option::create([
-                        'option' => $faker->sentence,
-                        'poll_id' => $faker->randomElement($polled_id),
-                        'owner_id' => $faker->randomElement($owner_id)
-                    ]);
-               }
+
+            //  $faker = Faker::create();
+            //   $owner_id = DB::table('users')->pluck('id');
+            //   $polled_id = DB::table('polls')->pluck('id');
+            //    foreach (range(1,50) as $index){
+            //         \App\Option::create([
+            //             'option' => $faker->sentence,
+            //             'poll_id' => $faker->randomElement($polled_id),
+            //             'owner_id' => $faker->randomElement($owner_id)
+            //         ]);
+            //    }
 
         }
 

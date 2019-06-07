@@ -30,21 +30,20 @@ class VerifyUserController extends Controller
 
         $user = User::where('verifycode', $verifycode)->first();
 
+        $token = Auth::guard($api)->login($user);
+        
             if ($user->email_verified_at == null){
                 $user->email_verified_at = date("Y-m-d H:i:s");
                 $user->save();
-
-                  //generate new token for user
-                $token = Auth::guard('api')->login($user);
                 
                 $msg["message"] = "Account is verified. You can now login.";
-                $msg['verified'] = "true";
-                $msg['token'] =  $token;
+                $msg['verified'] = "True";
+                $msg['token'] = $token;
                 return response()->json($msg, 200);
-
+                
             } else {
                 $msg["message"] = "Account verified already. Please Login";
-                $msg['verified'] = "done";
+                $msg['verified'] = "Done";
 
                 return response()->json($msg, 200);
              }
@@ -53,7 +52,7 @@ class VerifyUserController extends Controller
 
             $msg["message"] = "Account with code does not exist!";
 
-            return response()->json($msg, 404);
+            return response()->json($msg, 409);
 
         }
             

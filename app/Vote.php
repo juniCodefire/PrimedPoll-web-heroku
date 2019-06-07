@@ -34,4 +34,9 @@ class Vote extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return $this->belongsTo('App\Option');
     }
+
+    public function poll()
+    {
+        return $this->belongsTo('App\Option');
+    }
 }

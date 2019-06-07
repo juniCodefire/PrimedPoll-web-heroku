@@ -20,21 +20,24 @@ class UserInterestController extends Controller
     
     public function index()
     {
-        $interest = Userinterest::where('owner_id', Auth::user()->id)->with('interest')->get();
+        $user = Auth::user();
+
+        $interest = $user->interest()->get();
 
         return response()->json($interest, 200);
-
     }
 
     public function show($id)
     {   
-        $interest = Userinterest::findOrFail($id);
+        $user = Auth::user();
 
-        if(Auth::user()->id == $interest->owner_id)
+        $interest = $user->interest()->where('interest_id', $id)->first();
+
+        if($interest)
             {
                 return response()->json($interest, 200);
             }
-            return response()->json('Unauthorized Access!', 400);
+        return response()->json('You are not subscribed to this interest!', 400);
     }
 
     public function showAllIntrerestPoll($interest_id)
@@ -51,25 +54,22 @@ class UserInterestController extends Controller
                 if ($poll){
                     
                     return response()->json($poll, 200);
-                } return response()->json('Poll Does not Exist', 401);
+                } return response()->json('Poll Does not Exist', 404);
             
-            } return response()->json('Interest Does not Exist', 401);
+            } return response()->json('Interest Does not Exist', 404);
         
     }
-
      
     public function destroy(Request $request, $id)
     {
-        $interest = Userinterest::findOrFail($id);
+        $user = Auth::user();
+        $interest = $user->interest()->detach($id);
 
-        if(Auth::user()->id == $interest->owner_id)
-        {
-                $interest->delete();
-
-                $res['status'] = "Deleted Successfully!";
-                return response()->json($res, 201);
-            
-        } return response()->json('Unauthorized Acess', 400);
+        if($interest)
+            {
+                return response()->json(['message' => 'Interest removed successully'], 200);
+            }
+        return response()->json('You are not subscribed to this interest!', 400);
     }
 
 

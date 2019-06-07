@@ -40,23 +40,23 @@ class Poll extends Model implements JWTSubject, AuthenticatableContract, Authori
         return [];
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function interest()
+    {
+        return $this->belongsTo('App\Interest');
+    }
+
     public function options()
     {
         return $this->hasMany('App\Option');
-    }
-    
-    public function interest()
-    {
-        return $this->hasMany('App\Interest');
     }
 
     public function votes()
     {
         return $this->hasMany('App\Vote');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('App\User');
     }
 }

@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\JWTAuth;
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
-use JWTAuthException;
+
 use App\User;
 use App\Admin;
+use Carbon\Carbon;
+use JWTAuthException;
+use App\Http\Requests;
+use Tymon\JWTAuth\JWTAuth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+
 
 class SignInController extends Controller
 {
@@ -33,7 +36,7 @@ class SignInController extends Controller
         $credentials = $request->only('email', 'password');
 
         try {
-            if (!$token = $this->jwt->attempt($credentials)) {
+            if (!$token = $this->jwt->attempt($credentials, ['exp' => Carbon::now()->addDay(1)->timestamp])){
                 return response()->json(['message' => 'User not found'], 404);
             }
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {

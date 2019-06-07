@@ -68,6 +68,30 @@ class UserProfileController extends Controller
         $user->save();
     }
 
+    public function updatePassword(Request $request)
+    {
+        $user = Auth::user();
+
+        $this->validatePassword($request);
+
+        $old_password = $request->input('old_password');
+        $password = $request->input('password');
+    
+        $checker = Hash::check($old_password, $user->password);
+
+        if($checker) {
+
+            $user->password = Hash::make($password);
+            $user->save();
+
+            $msg['success'] = 'Password Changed Successfully';
+            return response()->json($msg, 201);
+        } else {
+            $msg['error'] = 'Invalid Credentials';
+            return response()->json($msg, 402);
+        }
+    }
+
     public function editProfile(Request $request)
     {
         $user = Auth::user();
@@ -87,11 +111,6 @@ class UserProfileController extends Controller
             $userinterest->interest_id = $item['interest_id'];
             $userinterest->save();
         }
-
-        if(!empty($request->input('password')))
-        {
-            $user->password = Hash::make($request->input('password'));
-        }
        
         $user->save();
 		$res['message'] = "Account Updated Successfully!";        
@@ -102,15 +121,12 @@ class UserProfileController extends Controller
 
     public function validateRequest(Request $request)
     {
-       $id = Auth::id();
-
        $rules = [
         'first_name' => 'required',
         'last_name' => 'string|required',
         'phone' => 'phone:NG,US,mobile|required',
         'dob' => 'date|required',
         'interests.*.interest_id' => 'required',
-        'password' => 'nullable|min:6|different:current_password|confirmed',
         ];
 
         $messages = [
@@ -119,6 +135,15 @@ class UserProfileController extends Controller
         ];
         
         $this->validate($request, $rules);
-
     }
+
+    public function validatePassword(Request $request)
+    {
+       $rules = [
+        'old_password'=> 'required|string',
+        'password' => 'required|min:6|different:old_password|confirmed',
+        ];
+        $this->validate($request, $rules);
+    }
+
 }

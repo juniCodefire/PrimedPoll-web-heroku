@@ -74,7 +74,14 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     //************************************** */
    
     //for users******************************Jeremiahiro******************************start/
+
+    // edit users profile
     $router->put('/edit', 'UserProfileController@editprofile');
+
+    // change users password
+    $router->patch('/password', 'UserProfileController@updatePassword');
+
+    // upload profile picture
     $router->post('/upload', 'UserProfileController@uploadImage');
 
 
@@ -87,9 +94,8 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
             // a user can edit/update a poll/option he created
             $router->put('/poll/{id}', 'UserPollController@update');
 
-
             // a user can create poll/options under an interest
-            $router->post('/{userinterest_id}/poll', 'UserPollController@create');
+            $router->post('/{id}/poll', 'UserPollController@create');
 
             // a user can delete a poll he created
             $router->delete('/poll/{id}', 'UserPollController@destroy');
@@ -99,11 +105,11 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
             // show all interest that user subscribed to
             $router->get('/user/interest/', 'UserInterestController@index');
 
-            // show a single interest that user subscribed to
-            $router->get('/user/interest/{id}', 'UserInterestController@show');
+                    // show a single interest that user subscribed to
+                    $router->get('/user/{interest_id}', 'UserInterestController@show');
 
-            // a user can deselect an interest
-            $router->delete('/user/interest/{id}', 'UserInterestController@destroy');
+                    // a user can deselect an interest
+                    $router->delete('/user/{interest_id}', 'UserInterestController@destroy');
 
 
 
