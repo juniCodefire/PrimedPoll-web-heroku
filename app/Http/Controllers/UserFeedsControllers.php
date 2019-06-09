@@ -37,7 +37,6 @@ class UserFeedsController extends Controller
                 $fetch_interest = Interest::where('id', $fetch_poll->interest_id)->first();
                 //Fetch the user options 
                 $fetch_options  =  Option::where('poll_id', $fetch_poll->id)
-                                    ->where('owner_id', $fetch_poll->owner_id)
                                     ->select('id', 'option')
                                     ->get();
                 //Get the whole option related to the poll
