@@ -113,8 +113,8 @@ class UserFeedsController extends Controller
 
                 ];
                  array_push($feeds, $data);
+                 $options = [];
         }
-        $options = [];
         $offset += 5; 
         return response()->json(['data' =>['success' => true, 'scrolled_feeds' => $feeds, 'new_offset' => $offset]], 200);
      
