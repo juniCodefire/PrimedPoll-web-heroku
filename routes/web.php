@@ -138,6 +138,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     //JuniCodefire
     $router->get('/feeds', 'UserFeedsController@index');
     $router->get('/feeds/{offset}', 'UserFeedsController@scrolledfeeds');
+    $router->get('/not/subscribed/interest', 'UserInterestController@showNotSubscribedInterest');
     //***************************************************
 
 });

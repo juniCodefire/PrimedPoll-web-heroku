@@ -102,21 +102,27 @@ class UserProfileController extends Controller
         $user->last_name = $request->input('last_name');
         $user->phone = $request->input('phone');
         $user->dob = $request->input('dob');
-
-        $items = $request->input('interests');
         
-        foreach($items as $item) {
-            $userinterest = new Userinterest;
-            $userinterest->owner_id = $user->id;
-            $userinterest->interest_id = $item['interest_id'];
-            $userinterest->save();
-        }
-       
         $user->save();
+
 		$res['message'] = "Account Updated Successfully!";        
         $res['user'] = $user;
-        $res['Userinterests'] = Userinterest::where('owner_id', Auth::user()->id)->with('interest')->get();
         return response()->json($res, 200); 
+    }
+
+    public function createBio()
+    {
+        $user = Auth::user();
+
+        $this->validateBio($request);
+
+        $user->bio = $request->input('bio');
+
+        $user->save();
+
+        $res['message']; = "Bio has been updated!";
+
+        return response()->json($res, 200);
     }
 
     public function validateRequest(Request $request)
@@ -125,8 +131,7 @@ class UserProfileController extends Controller
         'first_name' => 'required',
         'last_name' => 'string|required',
         'phone' => 'phone:NG,US,mobile|required',
-        'dob' => 'date|required',
-        'interests.*.interest_id' => 'required',
+        'dob' => 'date|required'
         ];
 
         $messages = [
@@ -141,7 +146,21 @@ class UserProfileController extends Controller
     {
        $rules = [
         'old_password'=> 'required|string',
-        'password' => 'required|min:6|different:old_password|confirmed',
+        'password' => 'required|min:6|different:old_password|confirmed'
+        ];
+        $messages = [
+            'required' => ':attribute is required'
+        ];
+        $this->validate($request, $rules);
+    }
+
+    public function validateBio(Request $request)
+    {
+        $rules = [
+           'bio' => 'required|string|max:230|min:5'
+        ];
+        $messages = [
+            'required' => ':attribute is required'
         ];
         $this->validate($request, $rules);
     }
