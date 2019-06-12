@@ -64,7 +64,7 @@ class UserInterestController extends Controller
     {
         $not_subscribed_interest = Interest::whereNotIn('id',  $this->feedspermit())->get();
 
-        $msg['not_subscribe_interest'] = $not_subscribed_interest;
+        $msg['not_subscribed_interest'] = $not_subscribed_interest;
 
         return response()->json($msg, 200);
     }
