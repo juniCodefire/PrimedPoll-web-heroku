@@ -105,7 +105,7 @@ class UserInterestController extends Controller
     public function validateInterests(Request $request) 
     {
         $rules = [
-           'interest_ids'   => 'required|array|min:5',
+           'interest_ids'   => 'required|array',
            'interest_ids.*' => 'required|integer'
         ];
         $messages = [
