@@ -142,7 +142,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     //Added newly remeber documentation
     $router->get('/not/subscribed/interest', 'UserInterestController@showNotSubscribedInterest');
 
-    $router->post('/add/new/interest', 'UserInterestController@create');
+    $router->post('/add/interest', 'UserInterestController@create');
     //***************************************************
 
 });
