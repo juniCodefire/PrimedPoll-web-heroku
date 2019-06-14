@@ -157,7 +157,7 @@ class UserProfileController extends Controller
     public function validateBio(Request $request)
     {
         $rules = [
-           'bio' => 'required|string|max:230|min:5'
+           'bio' => 'required|string|max:200|min:5'
         ];
         $messages = [
             'required' => ':attribute is required'
