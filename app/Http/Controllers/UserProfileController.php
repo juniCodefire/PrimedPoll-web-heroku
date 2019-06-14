@@ -107,7 +107,7 @@ class UserProfileController extends Controller
 
 		$res['message'] = "Account Updated Successfully!";        
         $res['user'] = $user;
-        return response()->json($res, 200); 
+        return response()->json($res, 201); 
     }
 
     public function createBio()
@@ -120,7 +120,7 @@ class UserProfileController extends Controller
 
         $user->save();
 
-        $res['message']; = "Bio has been updated!";
+        $res['message'] = "Bio has been updated!";
 
         return response()->json($res, 200);
     }

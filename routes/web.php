@@ -143,6 +143,9 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     $router->get('/not/subscribed/interest', 'UserInterestController@showNotSubscribedInterest');
 
     $router->post('/add/interest', 'UserInterestController@create');
+
+    // upload profile picture
+    $router->put('/bio', 'UserProfileController@createBio');
     //***************************************************
 
 });
