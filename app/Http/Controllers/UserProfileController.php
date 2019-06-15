@@ -110,7 +110,7 @@ class UserProfileController extends Controller
         return response()->json($res, 201); 
     }
 
-    public function createBio()
+    public function createBio(Request $request)
     {
         $user = Auth::user();
 
