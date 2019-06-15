@@ -120,6 +120,7 @@ class UserProfileController extends Controller
 
         $user->save();
 
+        $res['bio'] = $user->bio;
         $res['message'] = "Bio has been updated!";
 
         return response()->json($res, 200);
