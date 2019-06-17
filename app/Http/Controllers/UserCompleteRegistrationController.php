@@ -22,7 +22,7 @@ class UserCompleteRegistrationController extends Controller
 
         $this->validateRequest($request);
         try{
-        $default_image = 'https://res.cloudinary.com/iro/image/upload/v1552487696/Backtick/noimage.png';
+        $default_image = 'https://res.cloudinary.com/iro/image/upload/w_200,c_thumb,ar_4:4,g_face/Backtick/noimage.png';
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
