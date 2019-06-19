@@ -49,7 +49,7 @@ class UserProfileController extends Controller
             Cloudder::upload($image, null);
 
             list($width, $height) = getimagesize($image);
-            $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
+            $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width]);
             dd($image);
 
             $this->saveImages($request, $image);
