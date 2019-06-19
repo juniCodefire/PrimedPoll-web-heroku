@@ -21,7 +21,7 @@ class UserProfileController extends Controller
     public function index(User $user)
     {
         $user = Auth::user();
-             
+
         return response()->json(['data' => [ 'success' => true, 'user' => $user ]], 200);
     }
 
@@ -50,12 +50,13 @@ class UserProfileController extends Controller
 
             list($width, $height) = getimagesize($image);
             $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
+            dd($image);
 
             $this->saveImages($request, $image);
 
-        $res['message'] = "Upload Successful!";  
-        $res['image'] = $image;          
-        return response()->json($res, 200); 
+        $res['message'] = "Upload Successful!";
+        $res['image'] = $image;
+        return response()->json($res, 200);
 
         }
     }
@@ -76,7 +77,7 @@ class UserProfileController extends Controller
 
         $old_password = $request->input('old_password');
         $password = $request->input('password');
-    
+
         $checker = Hash::check($old_password, $user->password);
 
         if($checker) {
@@ -95,19 +96,19 @@ class UserProfileController extends Controller
     public function editProfile(Request $request)
     {
         $user = Auth::user();
-    
+
         $this->validateRequest($request);
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->phone = $request->input('phone');
         $user->dob = $request->input('dob');
-        
+
         $user->save();
 
-		$res['message'] = "Account Updated Successfully!";        
+		$res['message'] = "Account Updated Successfully!";
         $res['user'] = $user;
-        return response()->json($res, 201); 
+        return response()->json($res, 201);
     }
 
     public function createBio(Request $request)
@@ -139,7 +140,7 @@ class UserProfileController extends Controller
             'required' => ':attribute is required',
             'phone' => ':attribute number is invalid'
         ];
-        
+
         $this->validate($request, $rules);
     }
 
