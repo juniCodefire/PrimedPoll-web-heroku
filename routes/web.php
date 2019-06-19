@@ -64,7 +64,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
 
     // admin can view trending poll
     $router->get('admin/trending', 'AdminController@trending');
-  
+
     //for admin******************************Francis******************************start/
     $router->delete('admin/users/{user_id}', 'AdminController@deleteUser');
     //for admin******************************Jeremiahiro******************************end here/
@@ -72,7 +72,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
 
     //This is the Users Public route
     //************************************** */
-   
+
     //for users******************************Jeremiahiro******************************start/
 
     // edit users profile
@@ -82,7 +82,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     $router->put('/password', 'UserProfileController@updatePassword');
 
     // upload profile picture
-    $router->put('/upload', 'UserProfileController@uploadImage');
+    $router->post('/upload', 'UserProfileController@uploadImage');
 
 
             // show all poll a user has created, their options and total vote count
