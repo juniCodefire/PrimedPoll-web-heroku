@@ -34,7 +34,7 @@ class UserProfileController extends Controller
 
         if ($request->hasFile('image') && $request->file('image')->isValid()){
 
-            if ($user->image != "noimage.jpg") {
+            if ($user->image != "noimage.png") {
                 $oldImage = pathinfo($user->image, PATHINFO_FILENAME);
                 try {
                     $delete_old_image = Cloudder::destroyImage($oldImage);
