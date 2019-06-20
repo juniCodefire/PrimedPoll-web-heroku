@@ -49,6 +49,7 @@ class UserProfileController extends Controller
             $image = $request->file('image');
             $cloudder = Cloudder::upload($image)->getRealPath();
             dd($user->image);
+
             // list($width, $height) = getimagesize($image);
             // $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
 
@@ -73,7 +74,7 @@ class UserProfileController extends Controller
               width:  '433',
               widthThumb: '200',
               aspectRation: 'ar_4:4'
-            }
+            };
             $res['image'] = $image;
             return response()->json($res, 200);
 
