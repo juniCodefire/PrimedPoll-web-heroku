@@ -109,6 +109,7 @@ class UserFeedsController extends Controller
                     'poll_owner_id' => $fetch_poll->owner_id,
                     'firstname' => $fetch_user->first_name,
                     'lastname'  => $fetch_user->last_name,
+                    'image_link'=> 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',
                     'image'     => $fetch_user->image,
                     'option'    => $options
 
