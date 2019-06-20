@@ -40,7 +40,8 @@ class UserCompleteRegistrationController extends Controller
         $msg['user'] = $user;
         $msg['interests'] = $user->interest()->get();
         $msg['interest'] = $interest;
-        $msg['image_link'] = 'http://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/';
+        $msg['image_link'] = 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/';
+        $msg['image'] = $user->image;
         return response()->json($msg, 201);
         }catch (\Exception $e) {
             return response()->json(['message'=> "Opps! Something went wrong!"], 400);
