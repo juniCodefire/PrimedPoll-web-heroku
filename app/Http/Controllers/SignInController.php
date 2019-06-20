@@ -27,7 +27,7 @@ class SignInController extends Controller
         $this->jwt = $jwt;
     }
     public function userLogin(Request $request) {
-    // Do a validation for the input 
+    // Do a validation for the input
         $this->validate($request, [
 
         	'email' => 'required|email',
@@ -48,17 +48,18 @@ class SignInController extends Controller
         }
 
        $user = Auth::guard('api')->user();
+       $image_link = 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/';
 
        if ($user->email_verified_at != null) {
-            return response()->json(['data' =>['success' => true,'user' => $user, 'token' => $token]], 200);
+            return response()->json(['data' =>['success' => true,'user' => $user, 'image_link' => $image_link, 'token' => $token]], 200);
         }else{
-            return response()->json(['data' =>['error' => false, 'message' => "Not confirmed yet"]], 401); 
-        }    
+            return response()->json(['data' =>['error' => false, 'message' => "Not confirmed yet"]], 401);
+        }
 
     }
 
       public function adminLogin(Request $request) {
-    // Do a validation for the input 
+    // Do a validation for the input
         $this->validate($request, [
 
         	'email' => 'required|email',
@@ -77,11 +78,12 @@ class SignInController extends Controller
     } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
         return response()->json(['token_absent' => $e->getMessage()], 500);
     }
-   
+
        $admin = Auth::guard('admin')->user();
-       return response()->json(['data' =>['success' => true,'admin' => $admin, 'token' => $token]], 200);  
+       $image_link = 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/';
+       return response()->json(['data' =>['success' => true,'admin' => $admin, 'imag_link' => $image_link, 'token' => $token]], 200);
 
     }
-  
+
 
 }

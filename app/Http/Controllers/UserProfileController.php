@@ -61,7 +61,7 @@ class UserProfileController extends Controller
 
             $user_image = $file_url.".".$format;
 
-            $this->saveImages($request, $image);
+            $this->saveImages($request, $user_image);
 
             $res['message'] = "Upload Successful!";
             $res['image_link'] = 'http://res.cloudinary.com/getfiledata/image/upload/';
@@ -80,11 +80,11 @@ class UserProfileController extends Controller
         }
     }
 
-    public function saveImages(Request $request, $image)
+    public function saveImages(Request $request, $user_image)
     {
         $user = Auth::user();
 
-        $user->image = $image;
+        $user->image = $user_image;
         $user->save();
     }
 
