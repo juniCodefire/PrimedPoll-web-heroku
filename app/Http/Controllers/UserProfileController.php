@@ -46,9 +46,10 @@ class UserProfileController extends Controller
 
             $user = $request->file('image');
             $filename = $request->file('image')->getClientOriginalName();
-            $image = $request->file('image');
-            $cloudder = Cloudder::upload($image)->getRealPath();
-            dd($user->image);
+            $image = $request->file('image')->getRealPath();
+            $cloudder = Cloudder::upload($image);
+
+            $cloudder = Cloudder::upload($request->file('user_image')->getRealPath());
 
             // list($width, $height) = getimagesize($image);
             // $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
@@ -60,7 +61,7 @@ class UserProfileController extends Controller
             //Get the image format from the api
             $format = $uploadResult["format"];
 
-            $image = $file_url.".".$format;
+            $user_image = $file_url.".".$format;
 
             $this->saveImages($request, $image);
 
@@ -75,7 +76,7 @@ class UserProfileController extends Controller
               'widthThumb' => '200',
               'aspectRatio' => 'ar_4:4'
             ];
-            $res['image'] = $image;
+            $res['image'] = $user_image;
             return response()->json($res, 200);
 
         }
