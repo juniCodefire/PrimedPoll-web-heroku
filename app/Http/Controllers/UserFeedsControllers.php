@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class UserFeedsController extends Controller
-{    
+{
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    
+
     public function index()
     {
         $fetch_polls = DB::table('polls')
@@ -30,12 +30,12 @@ class UserFeedsController extends Controller
         $feeds   = [];
         $options = [];
 
-        foreach ($fetch_polls as $fetch_poll) {              
-                //Fetch the user info 
+        foreach ($fetch_polls as $fetch_poll) {
+                //Fetch the user info
                 $fetch_user     = User::where('id', $fetch_poll->owner_id)->first();
-                //Fetch the user interest 
+                //Fetch the user interest
                 $fetch_interest = Interest::where('id', $fetch_poll->interest_id)->first();
-                //Fetch the user options 
+                //Fetch the user options
                 $fetch_options  = Option::where('poll_id', $fetch_poll->id)
                                     ->select('id', 'option')
                                     ->get();
@@ -43,7 +43,7 @@ class UserFeedsController extends Controller
                 foreach ($fetch_options as $fetch_option) {
                     $values = [
                         'option_id' => $fetch_option->id,
-                        'option'    => $fetch_option->option 
+                        'option'    => $fetch_option->option
                     ];
                     array_push($options, $values);
                 }
@@ -54,6 +54,7 @@ class UserFeedsController extends Controller
                     'poll_owner_id' => $fetch_poll->owner_id,
                     'firstname' => $fetch_user->first_name,
                     'lastname'  => $fetch_user->last_name,
+                    'image_link'=> 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',
                     'image'     => $fetch_user->image,
                     'option'    => $options
 
@@ -82,12 +83,12 @@ class UserFeedsController extends Controller
         $feeds   = [];
         $options = [];
 
-        foreach ($fetch_polls as $fetch_poll) {            
-                //Fetch the user info 
+        foreach ($fetch_polls as $fetch_poll) {
+                //Fetch the user info
                 $fetch_user     = User::where('id', $fetch_poll->owner_id)->first();
-                //Fetch the user interest 
+                //Fetch the user interest
                 $fetch_interest = Interest::where('id', $fetch_poll->interest_id)->first();
-                //Fetch the user options 
+                //Fetch the user options
                 $fetch_options  = Option::where('poll_id', $fetch_poll->id)
                                     ->select('id', 'option')
                                     ->get();
@@ -95,7 +96,7 @@ class UserFeedsController extends Controller
                 foreach ($fetch_options as $fetch_option) {
                     $values = [
                         'option_id' => $fetch_option->id,
-                        'option'    => $fetch_option->option 
+                        'option'    => $fetch_option->option
                     ];
                     array_push($options, $values);
                 }
@@ -115,9 +116,9 @@ class UserFeedsController extends Controller
                  array_push($feeds, $data);
                  $options = [];
         }
-        $offset += 5; 
+        $offset += 5;
         return response()->json(['data' =>['success' => true, 'scrolled_feeds' => $feeds, 'new_offset' => $offset]], 200);
-     
+
   }
 
   public function feedspermit() {
