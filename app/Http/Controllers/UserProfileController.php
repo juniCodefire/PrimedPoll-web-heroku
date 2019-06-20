@@ -49,8 +49,6 @@ class UserProfileController extends Controller
             $image = $request->file('image')->getRealPath();
             $cloudder = Cloudder::upload($image);
 
-            $cloudder = Cloudder::upload($request->file('user_image')->getRealPath());
-
             // list($width, $height) = getimagesize($image);
             // $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
 
