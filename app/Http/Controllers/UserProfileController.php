@@ -33,6 +33,7 @@ class UserProfileController extends Controller
         $user = Auth::user();
 
         if ($request->hasFile('image') && $request->file('image')->isValid()){
+          dd($user->image);
             if ($user->image != "noimage.jpg") {
                 $oldImage = pathinfo($user->image, PATHINFO_FILENAME);
                 try {
@@ -49,8 +50,7 @@ class UserProfileController extends Controller
             Cloudder::upload($image, null);
 
             list($width, $height) = getimagesize($image);
-            $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width]);
-            dd($image);
+            $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
 
             $this->saveImages($request, $image);
 
