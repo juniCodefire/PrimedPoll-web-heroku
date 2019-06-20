@@ -66,15 +66,15 @@ class UserProfileController extends Controller
 
             $res['message'] = "Upload Successful!";
             $res['image_link'] = 'http://res.cloudinary.com/getfiledata/image/upload/';
-            $res['image_prop'] = {
-              cropType1: 'c_fit',
-              cropType2: 'g_face',
-              imageStyle: 'c_thumb',
-              heigth: 'h_577',
-              width:  '433',
-              widthThumb: '200',
-              aspectRatio: 'ar_4:4'
-            };
+            $res['image_prop'] = [
+              'cropType1' => 'c_fit',
+              'cropType2' => 'g_face',
+              'imageStyle' => 'c_thumb',
+              'heigth' => 'h_577',
+              'width' =>  '433',
+              'widthThumb' => '200',
+              'aspectRatio' => 'ar_4:4'
+            ];
             $res['image'] = $image;
             return response()->json($res, 200);
 
