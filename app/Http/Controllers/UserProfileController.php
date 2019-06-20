@@ -65,18 +65,20 @@ class UserProfileController extends Controller
             $this->saveImages($request, $image);
 
             $res['message'] = "Upload Successful!";
-            $res['image_link'] = 'http://res.cloudinary.com/getfiledata/image/upload/';
-            $res['image_prop'] = [
-              'cropType1' => 'c_fit',
-              'cropType2' => 'g_face',
-              'imageStyle' => 'c_thumb,'
-              'heigth' => 'h_577',
-              'width' =>  '433',
-              'widthThumb' => '200',
-              'aspectRation' => 'ar_4:4'
-            ];
-            $res['image'] = $image;
-            return response()->json($res, 200);
+            $image_link = 'http://res.cloudinary.com/getfiledata/image/upload/';
+            $image_property = {
+              cropType1: 'c_fit',
+              cropType2: 'g_face',
+              imageStyle: 'c_thumb,'
+              heigth: 'h_577',
+              width:  '433',
+              widthThumb: '200',
+              aspectRation: 'ar_4:4'
+            };
+             return response()->json(['data' =>
+                    ['success' => true, 'image' => $image,
+                          'image_link' => $image_link,
+                          'image_property' => $image_property]], 200);
 
         }
     }
