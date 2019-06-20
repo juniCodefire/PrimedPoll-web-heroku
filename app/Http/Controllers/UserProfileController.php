@@ -33,7 +33,7 @@ class UserProfileController extends Controller
         $user = Auth::user();
 
         if ($request->hasFile('image') && $request->file('image')->isValid()){
-          dd($user->image);
+
             if ($user->image != "noimage.jpg") {
                 $oldImage = pathinfo($user->image, PATHINFO_FILENAME);
                 try {
@@ -46,17 +46,36 @@ class UserProfileController extends Controller
 
             $user = $request->file('image');
             $filename = $request->file('image')->getClientOriginalName();
-            $image = $request->file('image')->getRealPath();
-            Cloudder::upload($image, null);
+            $image = $request->file('image');
+            $cloudder = Cloudder::upload($image)->getRealPath();
+            dd($user->image);
+            // list($width, $height) = getimagesize($image);
+            // $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
 
-            list($width, $height) = getimagesize($image);
-            $image = Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
+            //Request the image info from api and save to db
+            $uploadResult = $cloudder->getResult();
+            //Get the public id or the image name
+            $file_url = $uploadResult["public_id"];
+            //Get the image format from the api
+            $format = $uploadResult["format"];
+
+            $image = $file_url.".".$format;
 
             $this->saveImages($request, $image);
 
-        $res['message'] = "Upload Successful!";
-        $res['image'] = $image;
-        return response()->json($res, 200);
+            $res['message'] = "Upload Successful!";
+            $res['image_link'] = 'http://res.cloudinary.com/getfiledata/image/upload/';
+            $res['image_prop'] = {
+              cropType1: 'c_fit',
+              cropType2: 'g_face',
+              imageStyle: 'c_thumb,'
+              height: 'h_577',
+              width:  '433',
+              widthThumb: '200',
+              aspectRation: 'ar_4:4'
+            }
+            $res['image'] = $image;
+            return response()->json($res, 200);
 
         }
     }

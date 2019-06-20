@@ -22,7 +22,7 @@ class UserCompleteRegistrationController extends Controller
 
         $this->validateRequest($request);
         try{
-        $default_image = 'https://res.cloudinary.com/iro/image/upload/w_200,c_thumb,ar_4:4,g_face/Backtick/noimage.png';
+        $default_image = 'noimage.png';
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
@@ -33,13 +33,14 @@ class UserCompleteRegistrationController extends Controller
         $interest_ids = $request->input('interest_ids');
 
         $interest = $user->interest()->syncWithoutDetaching($interest_ids);
- 
-        $user->save();      
+
+        $user->save();
 
         $msg['success'] = "Registration Completed";
         $msg['user'] = $user;
         $msg['interests'] = $user->interest()->get();
         $msg['interest'] = $interest;
+        $msg['image_link'] = 'http://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/';
         return response()->json($msg, 201);
         }catch (\Exception $e) {
             return response()->json(['message'=> "Opps! Something went wrong!"], 400);
