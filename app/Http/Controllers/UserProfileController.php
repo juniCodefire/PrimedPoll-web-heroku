@@ -71,7 +71,7 @@ class UserProfileController extends Controller
               'imageStyle' => 'c_thumb',
               'heigth' => 'h_577',
               'width' =>  '433',
-              'widthThumb' => '200',
+              'widthThumb' => 'w_200',
               'aspectRatio' => 'ar_4:4'
             ];
             $res['image'] = $user_image;
