@@ -82,7 +82,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     $router->put('/password', 'UserProfileController@updatePassword');
 
     // upload profile picture
-    $router->put('/upload', 'UserProfileController@uploadImage');
+    $router->post('/upload', 'UserProfileController@uploadImage');
 
 
             // show all poll a user has created, their options and total vote count
