@@ -70,6 +70,7 @@ $app->routeMiddleware([
     'JWTFactory' => Tymon\JWTAuthFacades\JWTFactory::class,
     'auth' => App\Http\Middleware\Authenticate::class,
     'admin.auth' => App\Http\Middleware\AdminSecurePass::class,
+    'usernameCheck' => App\Http\Middleware\UserNameMiddleware::class,
 ]);
 
 /*
