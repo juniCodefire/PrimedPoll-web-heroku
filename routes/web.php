@@ -153,5 +153,5 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
 
 $router->group(['middleware' => 'usernameCheck', 'prefix' => 'api'], function() use ($router)
 {
-    $router->get('general/{username}', 'UserPublicProfile@showData');
+    $router->get('public/profile/{username}', 'UserPublicProfile@showData');
 });

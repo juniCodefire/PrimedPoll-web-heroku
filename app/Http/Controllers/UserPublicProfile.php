@@ -18,15 +18,8 @@ class UserPublicProfile extends Controller
      * @return void
      */
    public function showData($username) {
-     $user  = User::where('username', $username)->get();
-       dd($user->id);
-     $value = User::find($user->id);
-
-      foreach ($post->tags as $tag) {
-          //
-      }
+     $user  = User::where('username', $username)->first();
      $interest = $user->interest()->get();
-     dd($interest);
      return response()->json(['data' => [ 'success' => true, 'user' => $user, 'interest' => $interest]], 200);
    }
 
