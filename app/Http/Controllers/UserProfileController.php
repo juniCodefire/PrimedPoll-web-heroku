@@ -124,7 +124,7 @@ class UserProfileController extends Controller
 
         $user->save();
 
-		$res['message'] = "Username Updated Successfully!";
+		    $res['message'] = "Username Updated Successfully!";
         $res['user'] = $user;
         return response()->json($res, 201);
     }

@@ -18,7 +18,6 @@ class PasswordController extends Controller
      * @return void
      */
 
-
         //geberate new password for the user
     public function generatedPassword()
     {

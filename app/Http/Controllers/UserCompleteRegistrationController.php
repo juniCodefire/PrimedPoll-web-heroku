@@ -58,7 +58,7 @@ class UserCompleteRegistrationController extends Controller
         'dob' => 'date|required',
         'interest_ids' => 'required|array|min:5',
         'interest_ids.*' => 'required|integer',
-        'usernam' => 'unique'
+        'username' => 'unique'
         ];
         $messages = [
             'required' => ':attribute is required',
