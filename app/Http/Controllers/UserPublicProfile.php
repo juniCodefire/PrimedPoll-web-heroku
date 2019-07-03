@@ -17,10 +17,10 @@ class UserPublicProfile extends Controller
      *
      * @return void
      */
-   public function showData($username) {
-     $user  = User::where('username', $username)->first();
-     $interest = $user->interest()->get();
-     return response()->json(['data' => [ 'success' => true, 'user' => $user, 'interest' => $interest]], 200);
+   public function showData(User $user, $username) {
+     $userData  = $user->usernameCheck($username);
+     $interest =  $userData->interest()->get();
+     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest]], 200);
    }
 
 }

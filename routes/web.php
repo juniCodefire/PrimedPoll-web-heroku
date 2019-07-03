@@ -153,5 +153,8 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
 
 $router->group(['middleware' => 'usernameCheck', 'prefix' => 'api'], function() use ($router)
 {
+    //JuniCodefire
     $router->get('public/profile/{username}', 'UserPublicProfile@showData');
+    $router->get('public/feeds/{id}/{username}', 'UserFeedsController@index');
+    $router->get('public/feeds/{id}/{offset}/{username}', 'UserFeedsController@scrolledfeeds');
 });

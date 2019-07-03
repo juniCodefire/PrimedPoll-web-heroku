@@ -22,7 +22,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
      */
 
     protected $fillable = [
-      
+
         'first_name', 'last_name', 'email', 'phone', 'category', 'dob', 'api_token',  'password', 'verifycode'
 
 
@@ -36,7 +36,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     protected $hidden = [
         'password',  'remember_token', 'email_verified_at','verifycode',
     ];
-  
+
       public function getJWTIdentifier() {
         return $this->getKey();
     }
@@ -45,7 +45,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
         return [];
     }
 
-  
+
     public function polls()
     {
         return $this->hasMany('App\Poll');
@@ -64,5 +64,9 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function votes()
     {
         return $this->hasMany('App\Vote');
+    }
+    public function usernameCheck($username)
+    {
+      return $this->where('username', $username)->first();
     }
 }
