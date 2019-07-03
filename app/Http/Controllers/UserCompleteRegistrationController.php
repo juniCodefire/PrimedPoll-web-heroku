@@ -15,7 +15,6 @@ class UserCompleteRegistrationController extends Controller
      *
      * @return void
      */
-
     public function update(Request $request)
     {
         $user = Auth::guard('api')->user();
@@ -23,12 +22,14 @@ class UserCompleteRegistrationController extends Controller
         $this->validateRequest($request);
         try{
         $default_image = 'noimage.png';
+        $uniqueID = mt_rand(00000, 90000);
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->phone = $request->input('phone');
         $user->dob = $request->input('dob');
         $user->image = $default_image;
+        $user->username = '@'.$user->first_name.$uniqueID;
 
         $interest_ids = $request->input('interest_ids');
 
@@ -46,7 +47,6 @@ class UserCompleteRegistrationController extends Controller
         }catch (\Exception $e) {
             return response()->json(['message'=> "Opps! Something went wrong!"], 400);
         }
-
     }
 
     public function validateRequest($request)
@@ -58,14 +58,12 @@ class UserCompleteRegistrationController extends Controller
         'dob' => 'date|required',
         'interest_ids' => 'required|array|min:5',
         'interest_ids.*' => 'required|integer',
+        'usernam' => 'unique'
         ];
-
         $messages = [
             'required' => ':attribute is required',
             'phone' => ':attribute number is invalid'
         ];
-
         $this->validate($request, $rules);
-
     }
 }
