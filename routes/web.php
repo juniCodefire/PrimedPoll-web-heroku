@@ -78,6 +78,9 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     // edit users profile
     $router->put('/edit', 'UserProfileController@editprofile');
 
+    // edit username
+    $router->put('/username', 'UserProfileController@editUsername');
+
     // change users password
     $router->put('/password', 'UserProfileController@updatePassword');
 

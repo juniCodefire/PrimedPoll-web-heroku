@@ -112,6 +112,23 @@ class UserProfileController extends Controller
         }
     }
 
+    public function editUsername(Request $request)
+    {
+        $user = Auth::user();
+
+        $this->validate($request, [
+            'username' => 'required|unique:users'
+        ]);
+
+        $user->username = '@'.$request->input('username');
+
+        $user->save();
+
+		$res['message'] = "Username Updated Successfully!";
+        $res['user'] = $user;
+        return response()->json($res, 201);
+    }
+
     public function editProfile(Request $request)
     {
         $user = Auth::user();
@@ -152,7 +169,7 @@ class UserProfileController extends Controller
         'first_name' => 'required',
         'last_name' => 'string|required',
         'phone' => 'phone:NG,US,mobile|required',
-        'dob' => 'date|required'
+        'dob' => 'date|required',
         ];
 
         $messages = [
@@ -185,5 +202,4 @@ class UserProfileController extends Controller
         ];
         $this->validate($request, $rules);
     }
-
 }
