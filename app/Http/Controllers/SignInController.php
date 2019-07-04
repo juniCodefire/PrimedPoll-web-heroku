@@ -36,7 +36,8 @@ class SignInController extends Controller
         $credentials = $request->only('email', 'password');
 
         try {
-            if (!$token = $this->jwt->attempt($credentials, ['exp' => Carbon::now()->addDay(1)->timestamp])){
+            if (!$token = $this->jwt->attempt($credentials, ['exp' => Carbon::now()->addDay(2)->timestamp]))
+            {
                 return response()->json(['message' => 'User not found'], 404);
             }
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {

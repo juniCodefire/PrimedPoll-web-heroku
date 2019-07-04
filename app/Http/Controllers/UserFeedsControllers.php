@@ -75,6 +75,22 @@ class UserFeedsController extends Controller
 
   }
 
+  public function usersFeeds()
+  {
+     $fetch_polls = DB::table('polls')
+                    ->where('interest_id', $id)
+                    ->orderBy('id', 'desc')
+                    ->limit(20)
+                    ->get();
+
+      //This is the triggerQuery
+      $this->triggerQuery($fetch_polls);
+      return response()->json(['data' =>['success' => true, 'usersfeeds' => $this->feeds]], 200);
+
+  }
+
+
+
   public function feedspermit() {
     $check_interest = Userinterest::where('owner_id', Auth::user()->id)->pluck('interest_id');
     return $check_interest;
