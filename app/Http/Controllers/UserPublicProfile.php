@@ -18,7 +18,7 @@ class UserPublicProfile extends Controller
      *
      * @return void
      */
-   public $pollsData = []
+   public $pollsData = [];
    public function showData(User $user, $username) {
      $userData  = $user->usernameCheck($username);
      $interest =  $userData->interest()->get();
@@ -31,8 +31,8 @@ class UserPublicProfile extends Controller
         $values = [
           'poll' => $poll,
           'interest_name' => $interestInfo->title
-        ]
-        array.push($this->pollsData, $values)
+        ];
+        array.push($this->pollsData, $values);
 
       }
 
