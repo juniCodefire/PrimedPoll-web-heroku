@@ -18,23 +18,14 @@ class UserPublicProfile extends Controller
      *
      * @return void
      */
-   // public $pollsData = [];
    public function showData(User $user, $username) {
      $userData  = $user->usernameCheck($username);
      $interest =  $userData->interest()->get();
      $polls = Poll::where('owner_id', $userData->id)
                           ->orderBy('id', 'desc')
-                          ->limit(10)
+                          ->with('interest')
+                          ->limit(20)
                           ->get();
-      // foreach ($polls as $poll) {
-      //   $interestInfo = Interest::where('id', $poll->interest_id)->first();
-      //   $values = [
-      //     'poll' => $poll,
-      //     'interest_name' => $interestInfo->title
-      //   ];
-      //   array_push($this->pollsData, $values);
-      //
-      // }
 
      return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $polls]], 200);
    }
