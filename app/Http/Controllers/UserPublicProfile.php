@@ -22,12 +22,14 @@ class UserPublicProfile extends Controller
      $userData  = $user->usernameCheck($username);
      $interest =  $userData->interest()->get();
      $polls = Poll::where('owner_id', $userData->id)
-                          ->orderBy('id', 'desc')
+                          ->latest()
                           ->with('interest')
                           ->limit(20)
                           ->get();
+     $pollsCount = Poll::where('owner_id', $userData->id)->count();
 
-     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $polls]], 200);
+     return response()->json(['data' => [ 'success' => true, 'user' => $userData,
+                              'interest' => $interest, 'polls' => $polls, 'pollCount' =>  $pollsCount]], 200);
    }
 
 }

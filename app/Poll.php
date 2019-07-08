@@ -39,7 +39,6 @@ class Poll extends Model implements JWTSubject, AuthenticatableContract, Authori
     public function getJWTCustomClaims() {
         return [];
     }
-
     public function user()
     {
         return $this->belongsTo('App\User');
