@@ -42,7 +42,8 @@ class UserPublicProfile extends Controller
                                 'width' =>  '433',
                                 'widthThumb' => 'w_200',
                                 'aspectRatio' => 'ar_4:4'
-                              ]
+                              ],
+                              'notLogin' => true
                               ]], 200);
    }
 
