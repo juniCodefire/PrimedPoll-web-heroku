@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Poll;
 use Cloudder;
 use App\Interest;
 use App\Userinterest;
@@ -20,7 +21,12 @@ class UserPublicProfile extends Controller
    public function showData(User $user, $username) {
      $userData  = $user->usernameCheck($username);
      $interest =  $userData->interest()->get();
-     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest]], 200);
+     $polls = Poll::where('owner_id', $userData->id)
+                          ->orderBy('id', 'desc')
+                          ->limit(10)
+                          ->get();
+
+     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $polls]], 200);
    }
 
 }

@@ -18,7 +18,7 @@ class UserNameMiddleware
       public function handle($request, Closure $next)
       {
          $c = explode('/', $request->path());
-         $result = end($c);
+         $result = '@'.end($c);
          $username = DB::table('users')
                         ->where('username', $result)
                         ->exists();

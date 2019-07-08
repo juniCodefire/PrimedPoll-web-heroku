@@ -67,6 +67,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     }
     public function usernameCheck($username)
     {
+      $username = '@'.$username;
       return $this->where('username', $username)->first();
     }
 }
