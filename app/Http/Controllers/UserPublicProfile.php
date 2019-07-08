@@ -36,7 +36,7 @@ class UserPublicProfile extends Controller
       //
       // }
 
-     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $this->polls]], 200);
+     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $polls]], 200);
    }
 
 }
