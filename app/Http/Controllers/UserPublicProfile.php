@@ -18,7 +18,7 @@ class UserPublicProfile extends Controller
      *
      * @return void
      */
-   public $pollsData = [];
+   // public $pollsData = [];
    public function showData(User $user, $username) {
      $userData  = $user->usernameCheck($username);
      $interest =  $userData->interest()->get();
@@ -26,17 +26,17 @@ class UserPublicProfile extends Controller
                           ->orderBy('id', 'desc')
                           ->limit(10)
                           ->get();
-      foreach ($polls as $poll) {
-        $interestInfo = Interest::where('id', $poll->interest_id)->first();
-        $values = [
-          'poll' => $poll,
-          'interest_name' => $interestInfo->title
-        ];
-        array_push($this->pollsData, $values);
+      // foreach ($polls as $poll) {
+      //   $interestInfo = Interest::where('id', $poll->interest_id)->first();
+      //   $values = [
+      //     'poll' => $poll,
+      //     'interest_name' => $interestInfo->title
+      //   ];
+      //   array_push($this->pollsData, $values);
+      //
+      // }
 
-      }
-
-     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $this->pollsData]], 200);
+     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $this->polls]], 200);
    }
 
 }
