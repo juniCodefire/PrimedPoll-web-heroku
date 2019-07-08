@@ -20,18 +20,13 @@ class UserPublicProfile extends Controller
      */
    public function showData(User $user, $username) {
      $userData  = $user->usernameCheck($username);
-     if ($userData) {
-       $interest =  $userData->interest()->get();
-       $polls = Poll::where('owner_id', $userData->id)
-                            ->orderBy('id', 'desc')
-                            ->limit(10)
-                            ->get();
+     $interest =  $userData->interest()->get();
+     $polls = Poll::where('owner_id', $userData->id)
+                          ->orderBy('id', 'desc')
+                          ->limit(10)
+                          ->get();
 
-       return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $polls]], 200);
-     }else {
-      return response()->json(['data' => [ 'success' => error, 'message' => 'User not found']], 404);
-     }
-
+     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $polls]], 200);
    }
 
 }

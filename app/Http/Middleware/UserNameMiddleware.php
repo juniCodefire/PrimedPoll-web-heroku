@@ -23,7 +23,7 @@ class UserNameMiddleware
                         ->where('username', $result)
                         ->exists();
          if (!$username) {
-              return response()->json('User name does not exist');
+           return response()->json(['data' => [ 'success' => true, 'message' => 'User name does not exist']], 404);
          }
           return $next($request);
       }
