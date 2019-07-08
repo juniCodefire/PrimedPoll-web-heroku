@@ -27,7 +27,7 @@ class UserPublicProfile extends Controller
                           ->limit(20)
                           ->get();
      $pollsCount = Poll::where('owner_id', $userData->id)->count();
-     
+
      return response()->json(['data' => [ 'success' => true,
                               'user' => $userData,
                               'interest' => $interest,
@@ -42,7 +42,7 @@ class UserPublicProfile extends Controller
                                 'width' =>  '433',
                                 'widthThumb' => 'w_200',
                                 'aspectRatio' => 'ar_4:4'
-                              ];
+                              ]
                               ]], 200);
    }
 
