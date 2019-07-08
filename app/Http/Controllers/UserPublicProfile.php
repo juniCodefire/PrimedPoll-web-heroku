@@ -32,11 +32,11 @@ class UserPublicProfile extends Controller
           'poll' => $poll,
           'interest_name' => $interestInfo->title
         ];
-        array.push($this->pollsData, $values);
+        array_push($this->pollsData, $values);
 
       }
 
-     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $pollsData]], 200);
+     return response()->json(['data' => [ 'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $this->pollsData]], 200);
    }
 
 }
