@@ -158,6 +158,6 @@ $router->group(['middleware' => 'usernameCheck', 'prefix' => 'api'], function() 
 {
     //JuniCodefire
     $router->get('profile/{username}', 'UserPublicProfile@showData');
-    $router->get('feeds/{id}', 'UserFeedsController@index');
-    $router->get('feeds/{id}/{offset}', 'UserFeedsController@scrolledfeeds');
+    $router->get('show/feeds/{id}', 'UserFeedsController@index');
+    $router->get('show/feeds/{id}/{offset}', 'UserFeedsController@scrolledfeeds');
 });
