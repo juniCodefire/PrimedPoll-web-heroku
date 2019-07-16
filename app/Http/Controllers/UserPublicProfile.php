@@ -24,27 +24,27 @@ class UserPublicProfile extends Controller
      $polls = Poll::where('owner_id', $userData->id)
                           ->latest()
                           ->with('interest')
+                          ->withCount('votes')
+                          ->with(['options' => function($query){
+                              $query->withCount('votes');
+                           }])
                           ->limit(20)
                           ->get();
      $pollsCount = Poll::where('owner_id', $userData->id)->count();
 
-     return response()->json(['data' => [ 'success' => true,
-                              'user' => $userData,
-                              'interest' => $interest,
-                              'polls' => $polls,
-                              'pollCount' =>  $pollsCount,
-                              'imageLink' => 'https://res.cloudinary.com/getfiledata/image/upload/',
-                              'imageProp' => [
-                                'cropType1' => 'c_fit',
-                                'cropType2' => 'g_face',
-                                'imageStyle' => 'c_thumb',
-                                'heigth' => 'h_577',
-                                'width' =>  '433',
-                                'widthThumb' => 'w_200',
-                                'aspectRatio' => 'ar_4:4'
-                              ],
-                              'notLogin' => true
-                              ]], 200);
+     return response()->json(['data' => [ 'success' => true,'user' => $userData,'interest' => $interest,'polls' => $polls,
+     'pollCount' =>  $pollsCount,'imageLink' => 'https://res.cloudinary.com/getfiledata/image/upload/',
+      'imageProp' => [
+        'cropType1' => 'c_fit',
+        'cropType2' => 'g_face',
+        'imageStyle' => 'c_thumb',
+        'heigth' => 'h_577',
+        'width' =>  '433',
+        'widthThumb' => 'w_200',
+        'aspectRatio' => 'ar_4:4'
+      ],
+      'notLogin' => true
+      ]], 200);
    }
 
 }
