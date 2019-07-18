@@ -35,13 +35,12 @@ class UserVotesController extends Controller
                     $vote->poll_id = $poll->id;
                     $vote->save();
 
-                    return response()->json(['data' => ['success' => true, 'message' => 'Voted', vote => $vote]], 201);
-
-                } return response()->json('WHAT MAKES YOU THINK YOU CAN VOTE TWICE?', 401);
+                    return response()->json(['success' => true, 'message' => 'Voted', vote => $vote], 201);
+                } return response()->json(['error' => false, 'message' => 'WHAT MAKES YOU THINK YOU CAN VOTE TWICE?'], 401);
             }catch (\Exception $e) {
-                return response()->json(['message'=> "Opps! Something went wrong!"], 400);
+                return response()->json(['error' => false, 'message'=> "Opps! Something went wrong!"], 400);
             }
-        } return response()->json(['message'=> "Opps! Something thing wrong!"], 404);
+        } return response()->json(['error' => false, 'message'=> "Opps! Something thing wrong!"], 404);
 
 
 
