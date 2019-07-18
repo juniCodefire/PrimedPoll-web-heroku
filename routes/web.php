@@ -142,6 +142,10 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     $router->get('/feeds', 'UserFeedsController@index');
     $router->get('/feeds/{offset}', 'UserFeedsController@scrolledfeeds');
 
+    //with single interest id
+    $router->get('single/feeds/{id}', 'UserFeedsController@index');
+    $router->get('single/feeds/{id}/{offset}', 'UserFeedsController@scrolledfeeds');
+
     //Added newly remeber documentation
     $router->get('/not/subscribed/interest', 'UserInterestController@showNotSubscribedInterest');
 
@@ -158,7 +162,5 @@ $router->group(['middleware' => 'usernameCheck', 'prefix' => 'api'], function() 
 {
     //JuniCodefire
     $router->get('profile/{username}', 'UserPublicProfile@showData');
-    $router->get('feeds/{id}/{username}', 'UserFeedsController@index');
     $router->get('public/feeds/{id}/{username}', 'UserFeedsController@usersFeeds');
-    $router->get('feeds/{id}/{offset}/{username}', 'UserFeedsController@scrolledfeeds');
 });
