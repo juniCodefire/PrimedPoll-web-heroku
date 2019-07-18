@@ -6,6 +6,7 @@ use App\Poll;
 use App\User;
 use App\Interest;
 use App\Option;
+use App\Vote;
 use Illuminate\Http\Request;
 use App\Userinterest;
 use Illuminate\Support\Facades\DB;
@@ -22,28 +23,33 @@ class UserFeedsController extends Controller
      public  $feeds   = [];
      public  $options = [];
 
+
+
+
     public function index($id = null)
     {
        if ($id == null) {
          $fetch_polls = DB::table('polls')
                          ->whereIn('interest_id', $this->feedspermit())
                          ->orderBy('id', 'desc')
-                         ->limit(5)
+                         ->limit(10)
                          ->get();
         }else {
           $this->Interestpermit($id);
           $fetch_polls = DB::table('polls')
                           ->where('interest_id', $id)
                           ->orderBy('id', 'desc')
-                          ->limit(5)
+                          ->limit(10)
                           ->get();
         }
-
         //This is the triggerQuery
-        $this->triggerQuery($fetch_polls);
+        $this->triggerQuery($fetch_polls, $voter_status_key="on");
         return response()->json(['data' =>['success' => true, 'feeds' => $this->feeds]], 200);
 
     }
+
+
+
 
 
     public function scrolledfeeds(Request $request,$id = null, $offset) {
@@ -56,7 +62,7 @@ class UserFeedsController extends Controller
                           ->whereIn('interest_id', $this->feedspermit())
                           ->offset($offset)
                           ->orderBy('id', 'desc')
-                          ->limit(5)
+                          ->limit(10)
                           ->get();
          }else {
            $this->Interestpermit($id);
@@ -64,23 +70,25 @@ class UserFeedsController extends Controller
                            ->where('interest_id', $id)
                            ->offset($offset)
                            ->orderBy('id', 'desc')
-                           ->limit(5)
+                           ->limit(10)
                            ->get();
          }
         //This is the triggerQuery
-        $this->triggerQuery($fetch_polls);
+        $this->triggerQuery($fetch_polls, $voter_status_key="on");
 
         $offset += 5;
         return response()->json(['data' =>['success' => true, 'scrolled_feeds' => $this->feeds, 'new_offset' => $offset]], 200);
 
   }
 
-  public function usersFeeds()
+
+  public function usersFeeds($id)
   {
+     this->Interestpermit($id)
      $fetch_polls = DB::table('polls')
                     ->where('interest_id', $id)
                     ->orderBy('id', 'desc')
-                    ->limit(20)
+                    ->limit(50)
                     ->get();
 
       //This is the triggerQuery
@@ -90,11 +98,12 @@ class UserFeedsController extends Controller
   }
 
 
-
   public function feedspermit() {
     $check_interest = Userinterest::where('owner_id', Auth::user()->id)->pluck('interest_id');
     return $check_interest;
   }
+
+
   public function Interestpermit($id) {
     $id_interest = Interest::where('id', $id)->exists();
     if (!$id_interest) {
@@ -102,7 +111,8 @@ class UserFeedsController extends Controller
     }
   }
 
-  public function triggerQuery($fetch_polls) {
+
+  public function triggerQuery($fetch_polls, $voter_status_key=null) {
     foreach ($fetch_polls as $fetch_poll) {
             //Fetch the user info
             $fetch_user     = User::where('id', $fetch_poll->owner_id)->first();
@@ -112,6 +122,12 @@ class UserFeedsController extends Controller
             $fetch_options  = Option::where('poll_id', $fetch_poll->id)
                                 ->select('id', 'option')
                                 ->get();
+
+            if ($voted_status_key == "on") {
+              $this->voteStatus($fetch_poll_id);
+            }else {
+              $voter_status = null;
+            }
             //Get the whole option related to the poll
             foreach ($fetch_options as $fetch_option) {
                 $values = [
@@ -133,10 +149,22 @@ class UserFeedsController extends Controller
                 'image_link'=> 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',
                 'image'     => $fetch_user->image,
                 'option'    => $this->options,
+                'voted_status' => $voted_status
 
             ];
              array_push($this->feeds, $data);
              $this->options = [];
     }
   }
+
+  public function voteStatus($poll_id) {
+        $check_vote_status = Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll->id)->exists();
+        if ($check_vote_status) {
+          return $voted_status = 1;
+        }else {
+          return $voted_status = 0;
+        }
+  }
+
+
 }
