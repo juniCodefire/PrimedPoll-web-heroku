@@ -65,6 +65,7 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return $this->hasMany('App\Vote');
     }
+
     public function usernameCheck($username)
     {
       $username = '@'.$username;

@@ -155,6 +155,9 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     $router->put('/bio', 'UserProfileController@createBio');
     //***************************************************
 
+    //Follow a memeber
+    $router->post('/follow/{id}', 'UserFollowController@create');
+
 });
 
 

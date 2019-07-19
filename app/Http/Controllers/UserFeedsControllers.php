@@ -160,9 +160,10 @@ class UserFeedsController extends Controller
   public function voteStatus($poll_id) {
         $check_vote_status = Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll_id)->exists();
         if ($check_vote_status) {
-          return 1;
+            $vote_info = Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll_id)->first();
+            return  $vote_info->option_id;
         }else {
-          return 0;
+          return false;
         }
   }
 

@@ -25,6 +25,8 @@ class UserVotesController extends Controller
 
         $this->validateVote($request);
         if($poll){
+          //start temporay transaction
+          DB::beginTransaction();
         try{
             $vote = new Vote;
                 if(!Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll->id)->exists())
@@ -34,12 +36,19 @@ class UserVotesController extends Controller
                     $vote->option_id = $request->input('option_id');
                     $vote->poll_id = $poll->id;
                     $vote->save();
-
-                    return response()->json(['success' => true, 'message' => 'Voted', 'vote' => $vote], 201);
-                }else {
-                  return response()->json(['error' => false, 'message' => 'WHAT MAKES YOU THINK YOU CAN VOTE TWICE?'], 401);
+                    //if operation was successful save changes to database
+                    DB::commit();
+                    return response()->json(['success' => true, 'check' => 1, 'message' => 'Voted', 'vote' => $vote], 201);
                 }
+
+                $unVote =Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll->id)->first();
+                $removed = $unFollow->detach($poll->id);
+                //if operation was successful save changes to database
+                DB::commit();
+                return response()->json(['success' => true, 'check' => 0, 'message' => 'Unvote Successful?', 'vote' => $vote]], 201);
             }catch (\Exception $e) {
+              //if any operation fails, Thanos snaps finger - user was not created
+              DB::rollBack();
                 return response()->json(['error' => false, 'message'=> "Opps! Something went wrong!"], 400);
             }
         } return response()->json(['error' => false, 'message'=> "Opps! Something thing wrong!"], 404);

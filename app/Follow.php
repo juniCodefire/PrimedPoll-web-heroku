@@ -24,8 +24,4 @@ class Follow extends Model implements JWTSubject, AuthenticatableContract, Autho
     public function getJWTCustomClaims() {
         return [];
     }
-    public function user()
-    {
-      return $this->belongsTo('App\User', 'follower_id', 'following_id');
-    }
 }
