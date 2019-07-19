@@ -12,6 +12,8 @@ use Faker\Factory as Faker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\DB;
+
 class UserVotesController extends Controller
 {
     /**
@@ -38,14 +40,14 @@ class UserVotesController extends Controller
                     $vote->save();
                     //if operation was successful save changes to database
                     DB::commit();
-                    return response()->json(['success' => true, 'check' => 1, 'message' => 'Voted', 'vote' => $vote], 201);
+                    return response()->json(['success' => true, 'check' => 1, 'message' => 'Voted Successful!', 'vote' => $vote], 201);
                 }
 
                 $unVote =Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll->id)->first();
-                $removed = $unFollow->detach($poll->id);
+                $unVote->delete();
                 //if operation was successful save changes to database
                 DB::commit();
-                return response()->json(['success' => true, 'check' => 0, 'message' => 'Unvote Successful?', 'vote' => $vote]], 201);
+                return response()->json(['success' => true, 'check' => 0, 'message' => 'Unvote Successful!', 'unvote' => $unVote], 201);
             }catch (\Exception $e) {
               //if any operation fails, Thanos snaps finger - user was not created
               DB::rollBack();

@@ -43,16 +43,16 @@ class UserFollowController extends Controller
         }
 
         $unFollow = Follow::where('follower_id', Auth::user()->id)->where('following_id', $to_follow_user->id)->first();
-        $removed = $unFollow->detach($to_follow_user->id);
-
-        return response()->json(['success' => true, 'check' => 0, 'message' => 'Unfollowing Successful', 'follow' => $unFollow], 201);
-	      //if operation was successful save changes to database
+        $removed = $unFollow->delete();
+        
+        //if operation was successful save changes to database
         DB::commit();
+        return response()->json(['success' => true, 'check' => 0, 'message' => 'Unfollowing Successful', 'follow' => $unFollow], 201);
 
       } catch (\Exception $e) {
   			//if any operation fails, Thanos snaps finger - user was not created
   			DB::rollBack();
-        return response()->json(['error' => false, 'message'=> "Opps! Something went wrong!"], 400);
+        return response()->json(['error' => false, 'message'=> "Opps! Something went wrong!", 'errorType' => $e], 400);
       }
     } return response()->json(['error' => false, 'message'=> "Opps! Something thing wrong!"], 404);
 
