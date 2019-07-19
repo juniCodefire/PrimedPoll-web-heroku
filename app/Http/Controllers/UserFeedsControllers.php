@@ -30,6 +30,7 @@ class UserFeedsController extends Controller
     {
        if ($id == null) {
          $fetch_polls =  Poll::whereIn('interest_id', $this->feedspermit())
+                         ->withCount('votes')
                          ->orderBy('id', 'desc')
                          ->limit(10)
                          ->get();
@@ -49,8 +50,6 @@ class UserFeedsController extends Controller
 
 
 
-
-
     public function scrolledfeeds(Request $request,$id = null, $offset) {
 
         if (empty($offset)) {
@@ -66,8 +65,8 @@ class UserFeedsController extends Controller
          }else {
            $this->Interestpermit($id);
            $fetch_polls = Poll::where('interest_id', $id)
-                            ->withCount('votes')
                            ->offset($offset)
+                           ->withCount('votes')
                            ->orderBy('id', 'desc')
                            ->limit(10)
                            ->get();
