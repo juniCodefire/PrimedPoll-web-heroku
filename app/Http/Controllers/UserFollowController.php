@@ -48,9 +48,7 @@ class UserFollowController extends Controller
 
         //if operation was successful save changes to database
         DB::commit();
-        return response()->json(['success' => true, 'check' => 0,
-                                'message' => 'Unfollowing Successful',
-                                'image_link'=> 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/', 'follow' => $unFollow], 201);
+        return response()->json(['success' => true, 'check' => 0, 'message' => 'Unfollowing Successful', 'follow' => $unFollow], 201);
 
       } catch (\Exception $e) {
   			//if any operation fails, Thanos snaps finger - user was not created
@@ -77,7 +75,7 @@ class UserFollowController extends Controller
     $value = array_diff($users_id, $following);
     $to_follow = User::whereIn('id', $value)->get();
 
-    return response()->json(['success' => true, 'message' => 'Successful', 'to_follow' => $to_follow]);
+    return response()->json(['success' => true, 'message' => 'Successful',   'image_link'=> 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',  'to_follow' => $to_follow]);
   }
 
   public function permit($id) {
