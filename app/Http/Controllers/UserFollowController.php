@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Follow;
+use App\Interest;
+use App\UserInterest;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -19,11 +22,9 @@ class UserFollowController extends Controller
    *
    * @return void
    */
-  public function create($id) {
-    // Things to need Here
-    //Auth_id -> this is the follower_id
-    //request_id -> this is the following_id
+  public $id = [];
 
+  public function create($id) {
     $to_follow_user = User::find($id);
     if ($to_follow_user) {
 
@@ -32,7 +33,7 @@ class UserFollowController extends Controller
       try {
         $follow = new Follow;
 
-        if(!Follow::where('follower_id', Auth::user()->id)->where('following_id', $to_follow_user->id)->exists()) {
+        if(!$this->checkFollowUser($to_follow_user->id)) {
           $follow->follower_id = Auth::user()->id;
           $follow->following_id = $to_follow_user->id;
           $follow->save();
@@ -44,7 +45,7 @@ class UserFollowController extends Controller
 
         $unFollow = Follow::where('follower_id', Auth::user()->id)->where('following_id', $to_follow_user->id)->first();
         $removed = $unFollow->delete();
-        
+
         //if operation was successful save changes to database
         DB::commit();
         return response()->json(['success' => true, 'check' => 0, 'message' => 'Unfollowing Successful', 'follow' => $unFollow], 201);
@@ -56,5 +57,33 @@ class UserFollowController extends Controller
       }
     } return response()->json(['error' => false, 'message'=> "Opps! Something thing wrong!"], 404);
 
+  }
+
+  public function show() {
+    //get limit of 20 user in relation to the auth user interest at a ramdom order
+    //Needed Model [User, UserInterest, Interest, ]
+    $user = Auth::user();
+    $interests = $user->interest()->get();
+
+    foreach ($interests as $interest) {
+      array_push($this->id, $interest->id);
+    }
+    // Get the id's of the members to follow
+    $users_id = $this->permit($this->id);
+
+    $following = Follow::where('follower_id', Auth::user()->id)->pluck('following_id')->toArray();
+    $value = array_diff($users_id, $following);
+    $to_follow = User::whereIn('id', $value)->get();
+
+    return response()->json(['success' => true, 'message' => 'Successful', 'to_follow' => $to_follow]);
+  }
+
+  public function permit($id) {
+    $get_members = Userinterest::where('owner_id', '!=', Auth::user()->id)->whereIn('interest_id', $id)
+                        ->inRandomOrder()->distinct()->take(50)->pluck('owner_id')->toArray();
+    return $get_members;
+  }
+  public function checkFollowUser($id) {
+    return Follow::where('follower_id', Auth::user()->id)->where('following_id', $id)->exists();
   }
 }

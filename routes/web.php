@@ -156,6 +156,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     //***************************************************
 
     //Follow a memeber
+    $router->get('/follow', 'UserFollowController@show');
     $router->post('/follow/{id}', 'UserFollowController@create');
 
 });

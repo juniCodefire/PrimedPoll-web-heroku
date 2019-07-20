@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Poll;
+use App\Follow;
 use Cloudder;
 use App\Interest;
 use App\Userinterest;
@@ -18,7 +19,7 @@ class UserPublicProfile extends Controller
      *
      * @return void
      */
-   public function showData(User $user, $username) {
+   public function showData(User $user, $username, $permission, $onSession = null) {
      $userData  = $user->usernameCheck($username);
      $interest =  $userData->interest()->get();
      $polls = Poll::where('owner_id', $userData->id)
@@ -31,7 +32,18 @@ class UserPublicProfile extends Controller
                           ->limit(20)
                           ->get();
      $pollsCount = Poll::where('owner_id', $userData->id)->count();
-
+     if ($permission === 1){
+       $follow_check = Follow::where('follower_id', $onSession_id)->where('following_id', $userData->id)->exists();
+         if ($follow_check) {
+           $following = true;
+         }else {
+           $following = false;
+         }
+       $status = true;
+     }else {
+       $status = false;
+       $following = false;
+     }
      return response()->json(['data' => [ 'success' => true,'user' => $userData,'interest' => $interest,'polls' => $polls,
      'pollCount' =>  $pollsCount,'imageLink' => 'https://res.cloudinary.com/getfiledata/image/upload/',
       'imageProp' => [
@@ -43,7 +55,8 @@ class UserPublicProfile extends Controller
         'widthThumb' => 'w_200',
         'aspectRatio' => 'ar_4:4'
       ],
-      'notLogin' => true
+      'following' => $following,
+      'status' => $status
       ]], 200);
    }
 
