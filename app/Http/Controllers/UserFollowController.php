@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Follow;
 use App\Interest;
-use App\UserInterest;
+use App\Userinterest;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
