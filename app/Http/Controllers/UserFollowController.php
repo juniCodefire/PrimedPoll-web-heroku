@@ -48,7 +48,9 @@ class UserFollowController extends Controller
 
         //if operation was successful save changes to database
         DB::commit();
-        return response()->json(['success' => true, 'check' => 0, 'message' => 'Unfollowing Successful', 'follow' => $unFollow], 201);
+        return response()->json(['success' => true, 'check' => 0,
+                                'message' => 'Unfollowing Successful',
+                                'image_link'=> 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/', 'follow' => $unFollow], 201);
 
       } catch (\Exception $e) {
   			//if any operation fails, Thanos snaps finger - user was not created
