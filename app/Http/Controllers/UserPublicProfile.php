@@ -19,7 +19,7 @@ class UserPublicProfile extends Controller
      *
      * @return void
      */
-   public function showData(User $user, $username, $permission, $onSession = null) {
+   public function showData(User $user, $username, $permission = 'g373838dhe873', $onSession = 'olijj8737egr') {
      $userData  = $user->usernameCheck($username);
      $interest =  $userData->interest()->get();
      $polls = Poll::where('owner_id', $userData->id)
