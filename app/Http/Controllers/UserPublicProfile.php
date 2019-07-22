@@ -33,7 +33,7 @@ class UserPublicProfile extends Controller
                           ->get();
      $pollsCount = Poll::where('owner_id', $userData->id)->count();
      if ($permission === 1){
-       $follow_check = Follow::where('follower_id', $onSession_id)->where('following_id', $userData->id)->exists();
+       $follow_check = Follow::where('follower_id', $onSession)->where('following_id', $userData->id)->exists();
          if ($follow_check) {
            $following = true;
          }else {
