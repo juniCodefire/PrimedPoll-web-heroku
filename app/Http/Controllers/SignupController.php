@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class SignupController extends Controller
 {
 	public function register(Request $request)
-	
+
 	{
 		$this->validateRequest($request);
 
@@ -25,7 +25,7 @@ class SignupController extends Controller
 		DB::beginTransaction();
 
 		try {
-			
+
 			$user = User::create([
 			'email' => $request->input('email'),
 			'password' => Hash::make($request->get('password')),
@@ -39,7 +39,7 @@ class SignupController extends Controller
 			$msg['message'] = "Thanks for signing up! A Verification Mail has been Sent to $user->email";
 
 			$msg['verified'] = false;
-			
+
 
 			//if operation was successful save changes to database
 			DB::commit();
@@ -52,14 +52,14 @@ class SignupController extends Controller
 			DB::rollBack();
 
 			$msg['error'] = "Account Not created, Try Again!";
-			return response()->json($msg, 422);
-			
+			return response()->json($msg, 501);
+
 
 		}
 
-		
-	}	
-	
+
+	}
+
     public function validateRequest(Request $request){
 		$rules = [
 			'email' => 'required|email|unique:users',
@@ -71,5 +71,5 @@ class SignupController extends Controller
 	];
 		$this->validate($request, $rules, $messages);
 		}
-		
+
 }
