@@ -19,7 +19,7 @@ class UserPublicProfile extends Controller
      *
      * @return void
      */
-   public function showData(User $user, $username, $permission = 0, $onSession = 'primedpolloff') {
+   public function showData(User $user, $username, $permission = 0, $onSession = false) {
      $userData  = $user->usernameCheck($username);
      $interest =  $userData->interest()->get();
      $polls = Poll::where('owner_id', $userData->id)
@@ -32,17 +32,19 @@ class UserPublicProfile extends Controller
                           ->limit(20)
                           ->get();
      $pollsCount = Poll::where('owner_id', $userData->id)->count();
+  
      if ($permission === 1){
        $follow_check = Follow::where('follower_id', $onSession)->where('following_id', $userData->id)->exists();
-         if ($follow_check) {
+         if($follow_check) {
            $following = true;
          }else {
            $following = false;
          }
-       $status = true;
+         $onSession = true;
+     }else if ($permission === 0) {
+      $onSession = false;
      }else {
-       $status = false;
-       $following = false;
+      return response()->json(['data' => [ 'success' => true,'user' => $userData,'interest' => $interest,'polls' => $polls,]], 401)
      }
      return response()->json(['data' => [ 'success' => true,'user' => $userData,'interest' => $interest,'polls' => $polls,
      'pollCount' =>  $pollsCount,'imageLink' => 'https://res.cloudinary.com/getfiledata/image/upload/',
