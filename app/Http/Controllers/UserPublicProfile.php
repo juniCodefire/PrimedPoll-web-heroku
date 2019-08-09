@@ -34,16 +34,15 @@ class UserPublicProfile extends Controller
       ->get();
     $pollsCount = Poll::where('owner_id', $userData->id)->count();
 
-    if ($permission === 1) {
+    if ($permission == 1) {
       $follow_check = Follow::where('follower_id', $onSession)->where('following_id', $userData->id)->exists();
       if ($follow_check) {
         $following = true;
-      } else {
-        $following = false;
       }
       $onSession = true;
-    } else if ($permission === 0) {
+    } else if ($permission == 0) {
       $onSession = false;
+      $following = false;
     } else {
       return response()->json(['data' => ['error' => false, 'message' => 'Unauthorize process observe']], 401);
     }
@@ -60,7 +59,7 @@ class UserPublicProfile extends Controller
         'aspectRatio' => 'ar_4:4'
       ],
       'following' => $following,
-      'status' => $status
+      'onSession' => $onSession
     ]], 200);
   }
 }
