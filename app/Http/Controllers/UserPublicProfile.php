@@ -19,7 +19,7 @@ class UserPublicProfile extends Controller
    *
    * @return void
    */
-  public function showData(User $user, $username, $permission = 0, $onSession = false)
+  public function showData(User $user, $permission = 0, $onSession = false, $username)
   {
     $userData  = $user->usernameCheck($username);
     $interest =  $userData->interest()->get();
