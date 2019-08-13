@@ -24,7 +24,7 @@ class UserFollowController extends Controller
    */
   public $id = [];
 
-  public function create($id) {
+  public function follow($id) {
     $to_follow_user = User::find($id);
     if ($to_follow_user) {
 

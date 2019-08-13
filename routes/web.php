@@ -41,8 +41,7 @@ $router->post('api/admin/login', 'SignInController@adminLogin');
 //****************End Routes****************** */
 
 
-$router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use ($router)
-{
+$router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function () use ($router) {
     //Put you controller inside this block for authorization or create a new ground with new prefix
     //This is the Admin Private route(Work here with caution)
     //JuniCodefire************************************* */
@@ -88,43 +87,43 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
     $router->post('/upload', 'UserProfileController@uploadImage');
 
 
-            // show all poll a user has created, their options and total vote count
-            $router->get('/poll', 'UserPollController@index');
+    // show all poll a user has created, their options and total vote count
+    $router->get('/poll', 'UserPollController@index');
 
-            // show one poll a user has created, their options and total vote count
-            $router->get('/poll/{id}', 'UserPollController@show');
+    // show one poll a user has created, their options and total vote count
+    $router->get('/poll/{id}', 'UserPollController@show');
 
-            // a user can edit/update a poll/option he created
-            $router->put('/poll/{id}', 'UserPollController@update');
+    // a user can edit/update a poll/option he created
+    $router->put('/poll/{id}', 'UserPollController@update');
 
-            // a user can create poll/options under an interest
-            $router->post('/{id}/poll', 'UserPollController@create');
+    // a user can create poll/options under an interest
+    $router->post('/{id}/poll', 'UserPollController@create');
 
-            // a user can delete a poll he created
-            $router->delete('/poll/{id}', 'UserPollController@destroy');
-
-
-
-            // show all interest that user subscribed to
-            $router->get('/user/interest/', 'UserInterestController@index');
-
-                    // show a single interest that user subscribed to
-                    $router->get('/user/{interest_id}', 'UserInterestController@show');
-
-                    // a user can deselect an interest
-                    $router->delete('/user/{interest_id}', 'UserInterestController@destroy');
+    // a user can delete a poll he created
+    $router->delete('/poll/{id}', 'UserPollController@destroy');
 
 
 
-            // show single options of a poll and their vote count
-            $router->get('/{option_id}/option', 'UserOptionsController@show');
+    // show all interest that user subscribed to
+    $router->get('/user/interest/', 'UserInterestController@index');
 
-            // delete single option of a poll
-            $router->delete('/{option_id}/option', 'UserOptionsController@destroy');
+    // show a single interest that user subscribed to
+    $router->get('/user/{interest_id}', 'UserInterestController@show');
+
+    // a user can deselect an interest
+    $router->delete('/user/{interest_id}', 'UserInterestController@destroy');
 
 
-            // a user can vote
-            $router->post('/{poll_id}/vote', 'UserVotesController@create');
+
+    // show single options of a poll and their vote count
+    $router->get('/{option_id}/option', 'UserOptionsController@show');
+
+    // delete single option of a poll
+    $router->delete('/{option_id}/option', 'UserOptionsController@destroy');
+
+
+    // a user can vote
+    $router->post('/{poll_id}/vote', 'UserVotesController@create');
 
     //for users******************************Jeremiahiro******************************end here/
 
@@ -157,13 +156,11 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function() use (
 
     //Follow a memeber
     $router->get('/follow', 'UserFollowController@show');
-    $router->post('/follow/{id}', 'UserFollowController@create');
-
+    $router->post('/follow/{id}', 'UserFollowController@follow');
 });
 
 
-$router->group(['middleware' => 'usernameCheck', 'prefix' => 'api'], function() use ($router)
-{
+$router->group(['middleware' => 'usernameCheck', 'prefix' => 'api'], function () use ($router) {
     //JuniCodefire
     $router->get('profile/{permission}/{onSession}/{username}', 'UserPublicProfile@showData');
     $router->get('public/feeds/{id}/{username}', 'UserFeedsController@usersFeeds');
