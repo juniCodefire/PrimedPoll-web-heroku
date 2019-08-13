@@ -19,6 +19,7 @@ class UserPublicProfile extends Controller
    *
    * @return void
    */
+  public $following = false;
   public function showData(User $user, $permission = 0, $onSession = 0, $username)
   {
     $userData  = $user->usernameCheck($username);
@@ -36,17 +37,10 @@ class UserPublicProfile extends Controller
 
     if ($permission == 1) {
       $follow_check = Follow::where('follower_id', $onSession)->where('following_id', $userData->id)->exists();
-      if ($follow_check) {
-        $following = true;
-      } else {
-        return response()->json(['data' => ['error' => false, 'message' => 'Unauthorize process observe']], 401);
-      }
       $onSession = true;
-    } else if ($permission == 0) {
-      $onSession = 0;
-      $following = false;
-    } else {
-      return response()->json(['data' => ['error' => false, 'message' => 'Unauthorize process observe']], 401);
+      if ($follow_check) {
+        $this->following = true;
+      }
     }
     return response()->json(['data' => [
       'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $polls,
@@ -60,7 +54,7 @@ class UserPublicProfile extends Controller
         'widthThumb' => 'w_200',
         'aspectRatio' => 'ar_4:4'
       ],
-      'following' => $following,
+      'following' => $this->following,
       'onSession' => $onSession
     ]], 200);
   }
