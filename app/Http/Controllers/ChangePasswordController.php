@@ -41,8 +41,8 @@ class ChangePasswordController extends Controller
             $checkverifyemail->password = Hash::make($password);
             $checkverifyemail->save();
             return response()->json(['data' => ['success' => true, 'message' => "Your password has been changed"]], 200);
-          } catch (Exception $e) {
-             return response()->json(['data' => ['success' => true, 'message' => "Error changing password...."]], 400);
+          } catch (\Exception $e) {
+             return response()->json(['data' => ['success' => true, 'message' => "Error changing password...."]], 500);
           }
        }
     }

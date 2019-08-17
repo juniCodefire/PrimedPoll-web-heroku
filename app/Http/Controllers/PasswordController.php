@@ -41,7 +41,7 @@ class PasswordController extends Controller
        {
         return response()->json(['data' =>['success' => false, 'message' => 'User Not Found']], 404);
        }
-
+       
         try{
             $VerifyEmail->verifycode = $this->generatedPassword();
             Mail::to($VerifyEmail->email)->send(new NewPassword($VerifyEmail));
