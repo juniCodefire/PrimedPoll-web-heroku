@@ -47,7 +47,7 @@ class PasswordController extends Controller
             Mail::to($VerifyEmail->email)->send(new NewPassword($VerifyEmail));
             $VerifyEmail->save();
             return response()->json(['data' => ['success' => true, 'message' => "Email has been sent. Please check your inbox for your new password"]], 200);
-          } catch (Exception $e) {
+          } catch (\Exception $e) {
              return response()->json(['data' => ['success' => true, 'message' => "Email not sent, please try again"]], 500);
           }
     }

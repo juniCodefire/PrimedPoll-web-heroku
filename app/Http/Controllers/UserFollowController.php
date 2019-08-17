@@ -72,9 +72,11 @@ class UserFollowController extends Controller
     }
     // Get the id's of the members to follow
     $users_id = $this->permit($this->id);
-
+    //This gets all user id this user has followed
     $following = Follow::where('follower_id', Auth::user()->id)->pluck('following_id')->toArray();
+    //This is use to filter and get the member this user has not followed
     $value = array_diff($users_id, $following);
+
     $to_follow = User::whereIn('id', $value)->get();
 
     return response()->json(['success' => true, 'message' => 'Successful',   'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',  'to_follow' => $to_follow]);
