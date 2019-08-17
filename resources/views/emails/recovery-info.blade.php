@@ -13,7 +13,7 @@
         </div>
 
         <div id="box" style="width: 95%; margin: auto;"><br>
-            <h4>Hello <b>{{$user->first_name}} --- <span style="color: #f58731;">{{user->username}}</span></b></h4>
+            <h4>Hello <b>{{$user->first_name}} --- <span style="color: #f58731;">{{$user->username}}</span></b></h4>
             <div id="third_block">
                     <p>Please follow the below link to change your password!</p><br><br>
                     <p style="text-align:center;"><a href="https://polledapp-9fa3c.firebaseapp.com/password_change.html?email={{ $user->email }}&verifycode={{ $user->verifycode }}">
