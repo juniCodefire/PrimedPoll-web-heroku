@@ -82,7 +82,7 @@ class UserFollowController extends Controller
     return response()->json(['success' => true, 'message' => 'Successful',   'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',  'to_follow' => $to_follow]);
   }
 
-  public function follower($id) {
+  public function followers($id) {
     //This api get the followers from the followers table
     $get_the_followers_id = Follow::where('following_id', $id)->latest()->pluck('follower_id');
     $get_followers_data = User::whereIn('id', $get_the_followers_id)->get();
