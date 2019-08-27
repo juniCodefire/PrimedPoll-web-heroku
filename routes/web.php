@@ -164,4 +164,6 @@ $router->group(['middleware' => 'usernameCheck', 'prefix' => 'api'], function ()
     //JuniCodefire
     $router->get('profile/{permission}/{onSession}/{username}', 'UserPublicProfile@showData');
     $router->get('public/feeds/{id}/{username}', 'UserFeedsController@usersFeeds');
+    $router->get('follower/{id}/{username}', 'UserFollowController@follower');
+    $router->get('following/{id}/{username}', 'UserFollowController@following');
 });
