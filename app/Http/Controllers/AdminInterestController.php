@@ -27,7 +27,7 @@ class AdminInterestController extends Controller
     public function store(Request $request, Interest $interest) {
 
         $this->validate($request, [
-            'title'  => 'required',
+            'title'  => 'required|unique:interests',
         ]); 
 
         $interest->title = $request->input('title');
