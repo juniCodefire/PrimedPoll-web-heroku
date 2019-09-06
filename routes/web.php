@@ -102,6 +102,8 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function () use 
     // a user can delete a poll he created
     $router->delete('/poll/{id}', 'UserPollController@destroy');
 
+    //A user can see all poll voters
+    $router->get('/poll/voters/{id}', 'UserPollController@voters');
 
 
     // show all interest that user subscribed to
@@ -157,6 +159,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function () use 
     //Follow a memeber
     $router->get('/follow', 'UserFollowController@show');
     $router->post('/follow/{id}', 'UserFollowController@follow');
+
 });
 
 

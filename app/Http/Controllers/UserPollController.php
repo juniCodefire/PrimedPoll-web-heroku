@@ -6,7 +6,9 @@ use App\Poll;
 use App\User;
 use App\Option;
 use App\Interest;
+use App\Follow;
 use App\Userinterest;
+use App\Vote;
 use Faker\Factory as Faker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +31,17 @@ class UserPollController extends Controller
                 ->get();
         return response()->json($poll, 200);
     }
+    public function voters($id) {
+        $pluck_user_id = Vote::where('poll_id', $id)->pluck('owner_id');
+        if ($pluck_user_id) {
 
+            $get_user = User::whereIn('id', $pluck_user_id)->get()->toArray();
+            $get_follow_status = Follow::where('follower_id', Auth::user()->id)->whereIn('following_id', $pluck_user_id)->get()->toArray();
+            return response()->json(['success' => true, 'message' => 'users who voted', 'users' => $get_user, 'follow_status' => $get_follow_status]);
+        }else {
+            return response()->json(['error' => true, 'message' => 'Invalid poll id']);
+        }
+    }
     public function show($id)
     {   
         $pollCheck = Poll::findOrFail($id);
