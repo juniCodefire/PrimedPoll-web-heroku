@@ -37,7 +37,19 @@ class UserPollController extends Controller
 
             $get_user = User::whereIn('id', $pluck_user_id)->get()->toArray();
             $get_follow_status = Follow::where('follower_id', Auth::user()->id)->whereIn('following_id', $pluck_user_id)->get()->toArray();
-            return response()->json(['success' => true, 'message' => 'users who voted', 'users' => $get_user, 'follow_status' => $get_follow_status]);
+            return response()->json(['success' => true,
+             'message' => 'users who voted', 'users' => $get_user,
+             'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/';
+             'image_properties' => [
+              'cropType1' => 'c_fit',
+              'cropType2' => 'g_face',
+              'imageStyle' => 'c_thumb',
+              'heigth' => 'h_577',
+              'width' =>  '433',
+              'widthThumb' => 'w_200',
+              'aspectRatio' => 'ar_4:4'
+            ],
+            'follow_status' => $get_follow_status]);
         }else {
             return response()->json(['error' => true, 'message' => 'Invalid poll id']);
         }
