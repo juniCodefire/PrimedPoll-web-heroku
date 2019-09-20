@@ -32,13 +32,21 @@ class UserPollController extends Controller
         return response()->json($poll, 200);
     }
     public function voters($id) {
-        $pluck_user_id = Vote::where('poll_id', $id)->pluck('owner_id');
-        if ($pluck_user_id) {
+        $pluck_user_ids = Vote::where('poll_id', $id)->pluck('owner_id');
+        if ($pluck_user_ids) {
+            $user = [];
+            foreach ($pluck_user_ids as $pluck_user_id) {
+               $get_user = User::where('id', $pluck_user_id)->get();
 
-            $get_user = User::whereIn('id', $pluck_user_id)->get()->toArray();
-            $get_follow_status = Follow::where('follower_id', Auth::user()->id)->whereIn('following_id', $pluck_user_id)->get()->toArray();
+               $get_follow_status = Follow::where('follower_id', Auth::user()->id)
+               ->where('following_id', $pluck_user_id)->get();
+               $data = [$get_user, $get_follow_status];
+               array_push($user, $data);
+            }
+
+            
             return response()->json(['success' => true,
-             'message' => 'users who voted', 'users' => $get_user,
+             'message' => 'users who voted', 'users' =>  $user,
              'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/',
              'image_properties' => [
               'cropType1' => 'c_fit',
@@ -48,8 +56,8 @@ class UserPollController extends Controller
               'width' =>  '433',
               'widthThumb' => 'w_200',
               'aspectRatio' => 'ar_4:4'
-            ],
-            'follow_status' => $get_follow_status]);
+            ]
+            ]);
         }else {
             return response()->json(['error' => true, 'message' => 'Invalid poll id']);
         }
