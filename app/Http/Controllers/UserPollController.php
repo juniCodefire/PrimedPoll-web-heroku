@@ -39,7 +39,7 @@ class UserPollController extends Controller
             $get_follow_status = Follow::where('follower_id', Auth::user()->id)->whereIn('following_id', $pluck_user_id)->get()->toArray();
             return response()->json(['success' => true,
              'message' => 'users who voted', 'users' => $get_user,
-             'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/';
+             'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/',
              'image_properties' => [
               'cropType1' => 'c_fit',
               'cropType2' => 'g_face',
