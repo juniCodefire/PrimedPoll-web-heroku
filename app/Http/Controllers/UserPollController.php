@@ -43,20 +43,9 @@ class UserPollController extends Controller
                $data = [$get_user, $get_follow_status];
                array_push($user, $data);
             }
-
-            
             return response()->json(['success' => true,
              'message' => 'users who voted', 'users' =>  $user,
-             'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/',
-             'image_properties' => [
-              'cropType1' => 'c_fit',
-              'cropType2' => 'g_face',
-              'imageStyle' => 'c_thumb',
-              'heigth' => 'h_577',
-              'width' =>  '433',
-              'widthThumb' => 'w_200',
-              'aspectRatio' => 'ar_4:4'
-            ]
+             'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/'
             ]);
         }else {
             return response()->json(['error' => true, 'message' => 'Invalid poll id']);
