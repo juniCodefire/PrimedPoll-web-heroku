@@ -28,14 +28,18 @@ class AdminInterestController extends Controller
 
     public function showAdmin($id)
     {   
-        $pollCheck = Poll::findOrFail($id);
-            $poll = Poll::where('id', $id)
+            $poll = Poll::where('interest_id', $id)
                     ->withCount('votes')
                     ->with(['options' => function($query){
                         $query->withCount('votes');
                      }])
                     ->get();
-            return response()->json($poll, 200);
+            if($poll) {
+                return response()->json($poll, 200);
+            }else {
+                return response()->json('An error ocurred', 400);
+            }
+            
     }
 
     public function store(Request $request, Interest $interest) {
