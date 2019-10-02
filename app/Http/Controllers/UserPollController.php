@@ -86,26 +86,47 @@ class UserPollController extends Controller
                     $poll->interest_id = $interest->id;
                     $poll->owner_id = Auth::user()->id;
                     $poll->save();
-                    
                     $items = $request->input('options');
 
-                    foreach($items as $item) {
-                        $option = new Option;
-                        $option->option = $item['option'];
-                        $option->owner_id = Auth::user()->id;
-                        $option->poll_id = $poll->id;
-                        $option->save();
+                    if ($request->input('option_type') === "text") {
+                        //This handles the text options 
+                        $this->textOption();
+                    }else if($request->input('option_type') === "image") {  
+                        $this->imageOption();                 
+                       //This handles the images option
                     }
-                    $res['status'] = "{$poll->question} Created Successfully!";
-                    $res['poll'] = $poll;
-                    $res['options'] = Option::where('poll_id', $poll->id)->get();
-                    return response()->json($res, 201);
 
                  } return response()->json('Poll exist for Interest', 422);
 
             } return response()->json('Please Select Interest Before Creating Poll', 422);
     }
 
+    public function textOption() {
+              foreach($items as $item) {
+                $option = new Option;
+                $option->option = $item['option'];
+                $option->owner_id = Auth::user()->id;
+                $option->poll_id = $poll->id;
+                $option->save();
+            }
+            $res['status'] = "{$poll->question} Created Successfully!";
+            $res['poll'] = $poll;
+            $res['options'] = Option::where('poll_id', $poll->id)->get();
+            return response()->json($res, 201);
+    }
+     public function imageOption() {
+            //   foreach($items as $item) {
+            //     $option = new Option;
+            //     $option->option = $item['option'];
+            //     $option->owner_id = Auth::user()->id;
+            //     $option->poll_id = $poll->id;
+            //     $option->save();
+            // }
+            // $res['status'] = "{$poll->question} Created Successfully!";
+            // $res['poll'] = $poll;
+            // $res['options'] = Option::where('poll_id', $poll->id)->get();
+            // return response()->json($res, 201);
+    }
     public function update(Request $request, $id)
     {
         $pollCheck = Poll::where('id', $id)->exists();
@@ -170,6 +191,7 @@ class UserPollController extends Controller
             'question' => 'required|min:3',
             'options.*.option' => 'required',
             'startdate' => 'required|date|before:expirydate',
+            'option_type' => 'required',
             'expirydate' => 'required|date|after:startdate',
         ];
          

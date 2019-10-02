@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Interest;
 use App\Poll;
+use App\User;
 
 class AdminInterestController extends Controller
 {
@@ -33,6 +34,7 @@ class AdminInterestController extends Controller
                     ->with(['options' => function($query){
                         $query->withCount('votes');
                      }])
+                    ->with('users')
                     ->get();
             if($poll) {
                 return response()->json($poll, 200);
