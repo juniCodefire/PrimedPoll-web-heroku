@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Interest;
+use App\Poll;
 
 class AdminInterestController extends Controller
 {
@@ -20,8 +21,22 @@ class AdminInterestController extends Controller
     
     public function index() {
 
-       $interest = Interest::all();    
+       $interest = Interest::
+                    ->withCount('poll')
+                    ->get();    
        return response()->json(['data' =>['success' => true, 'interest' => $interest]], 200); 
+    }
+
+    public function showAdmin($id)
+    {   
+        $pollCheck = Poll::findOrFail($id);
+            $poll = Poll::where('id', $id)
+                    ->withCount('votes')
+                    ->with(['options' => function($query){
+                        $query->withCount('votes');
+                     }])
+                    ->get();
+            return response()->json($poll, 200);
     }
 
     public function store(Request $request, Interest $interest) {

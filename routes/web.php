@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +67,8 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function () use 
     //for admin******************************Francis******************************start/
     $router->delete('admin/users/{user_id}', 'AdminController@deleteUser');
     //for admin******************************Jeremiahiro******************************end here/
+
+    $router->get('admin/polls/{id}', 'AdminInterestController@showAdmin');
 
 
     //This is the Users Public route

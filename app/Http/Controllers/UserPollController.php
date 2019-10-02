@@ -66,7 +66,7 @@ class UserPollController extends Controller
             }
             return response()->json('Unauthorized Access!', 400);
     }
-
+  
     public function create(Request $request, $id)
     {
         $user = Auth::user();
