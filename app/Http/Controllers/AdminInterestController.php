@@ -21,8 +21,7 @@ class AdminInterestController extends Controller
     
     public function index() {
 
-       $interest = Interest::
-                    ->withCount('poll')
+       $interest = Interest::withCount('poll')
                     ->get();    
        return response()->json(['data' =>['success' => true, 'interest' => $interest]], 200); 
     }
