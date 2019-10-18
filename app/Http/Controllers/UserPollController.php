@@ -9,6 +9,7 @@ use App\Interest;
 use App\Follow;
 use App\Userinterest;
 use App\Vote;
+use Cloudder;
 use Faker\Factory as Faker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,28 +81,44 @@ class UserPollController extends Controller
             $poll = new Poll;
             if(!Poll::where('question', $request->input('question'))->where('interest_id', $id)->exists())
                 {
-                    $poll->question = $request->input('question');
-                    $poll->startdate = $request->input('startdate');
-                    $poll->expirydate = $request->input('expirydate');
-                    $poll->interest_id = $interest->id;
-                    $poll->owner_id = Auth::user()->id;
-                    $poll->save();
-                    $items = $request->input('options');
 
-                    if ($request->input('option_type') === "text") {
-                        //This handles the text options 
-                        $this->textOption();
-                    }else if($request->input('option_type') === "image") {  
-                        $this->imageOption();                 
-                       //This handles the images option
+                    try {
+                        $poll->question = $request->input('question');
+                        $poll->startdate = $request->input('startdate');
+                        $poll->expirydate = $request->input('expirydate');
+                        $poll->interest_id = $interest->id;
+                        $poll->owner_id = Auth::user()->id;
+                        // $poll->save();
+                                                     // return response()->json($res, $res['status']);
+                        // if ($request->input('option_type') === "text") {
+                        //     $items = $request->input('options');
+                        //     //This handles the text options 
+                        //     $res = $this->textOption($items, $poll);
+                        // }else if($request->input('option_type') === "image") { 
+                        //     if($request->hasFile('options')){
+                        //         $files = $request->file('options');
+                        //         $res = $this->imageOption($files, $poll);  
+                        //     }
+                        // }
+                        
+                        return response()->json($request->file('options'), 200);
+                    }catch(\Exception $e) {
+                        $res['message'] = 'An error occured, please try again!';
+                        $res['hint'] = $e->getMessage();
+                        
+                        return response()->json($res, 501);
                     }
 
-                 } return response()->json('Poll exist for Interest', 422);
+                 }else {
+                     return response()->json('Poll exist for Interest', 422);
+                 }
 
-            } return response()->json('Please Select Interest Before Creating Poll', 422);
+            }else {
+               return response()->json('Please Select Interest Before Creating Poll', 422);  
+            }
     }
 
-    public function textOption() {
+    public function textOption($items, $poll) {
               foreach($items as $item) {
                 $option = new Option;
                 $option->option = $item['option'];
@@ -109,23 +126,44 @@ class UserPollController extends Controller
                 $option->poll_id = $poll->id;
                 $option->save();
             }
-            $res['status'] = "{$poll->question} Created Successfully!";
-            $res['poll'] = $poll;
-            $res['options'] = Option::where('poll_id', $poll->id)->get();
-            return response()->json($res, 201);
+            $res['message'] = 'Poll created Successfully';
+            $res['status'] = 201;
+            return $res;
     }
-     public function imageOption() {
-            //   foreach($items as $item) {
-            //     $option = new Option;
-            //     $option->option = $item['option'];
-            //     $option->owner_id = Auth::user()->id;
-            //     $option->poll_id = $poll->id;
-            //     $option->save();
-            // }
-            // $res['status'] = "{$poll->question} Created Successfully!";
-            // $res['poll'] = $poll;
-            // $res['options'] = Option::where('poll_id', $poll->id)->get();
-            // return response()->json($res, 201);
+     public function imageOption($files, $poll) {
+        $format = array('jpg', 'jpeg', 'png', 'gif');
+        $data = [];
+              foreach($files as $file) {
+                if ($file->isValid()) {
+                    $extension = strtolower($file->extension());
+                    $file_size = filesize($file);
+                    if (in_array($extension, $format)) {
+                    
+                        if($file_size > 800000) {
+                            $res['message'] = "An image with title ".$file->getClientOriginalName()." size is too large (less than 5mb only)";
+                             $res['status'] =  422;
+                             return $res;
+                        }
+                         $result = $this->imageOptionUpload($file, $poll);
+                         array_push($data, $result);
+                    }else {
+                         $res['message'] = 'Format not support, use only (jpg,png,jpeg,gif)';
+                          $res['status'] = 422;
+                          return $res;
+                    }
+                }
+            }
+         $res['message'] =  'Poll created successfully!';
+         $res['status'] =  200;
+         $res['data'] = $data;
+         return $res;
+    }
+    public function imageOptionUpload($file, $poll) {
+        $image = $file->getRealPath();
+        //Store to Cloudinary 
+        $cloudder = Cloudder::upload($image);
+        $getResult = $cloudder->getResult();
+        return $getResult;
     }
     public function update(Request $request, $id)
     {
@@ -189,7 +227,7 @@ class UserPollController extends Controller
 
 		$rules = [
             'question' => 'required|min:3',
-            'options.*.option' => 'required',
+            'options' => 'required',
             'startdate' => 'required|date|before:expirydate',
             'option_type' => 'required',
             'expirydate' => 'required|date|after:startdate',
@@ -197,5 +235,7 @@ class UserPollController extends Controller
          
 		$this->validate($request, $rules);
     }
-
+//upload_max_filesize = 10M
+//post_max_size = 10M
+//memory_limit = 32M
 }
