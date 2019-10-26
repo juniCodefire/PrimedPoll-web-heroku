@@ -12,6 +12,7 @@ use App\Vote;
 use Cloudder;
 use Faker\Factory as Faker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class UserPollController extends Controller
@@ -88,23 +89,28 @@ class UserPollController extends Controller
                         $poll->expirydate = $request->input('expirydate');
                         $poll->interest_id = $interest->id;
                         $poll->owner_id = Auth::user()->id;
-                        // $poll->save();
-                                                     // return response()->json($res, $res['status']);
-                        // if ($request->input('option_type') === "text") {
-                        //     $items = $request->input('options');
-                        //     //This handles the text options 
-                        //     $res = $this->textOption($items, $poll);
-                        // }else if($request->input('option_type') === "image") { 
-                        //     if($request->hasFile('options')){
-                        //         $files = $request->file('options');
-                        //         $res = $this->imageOption($files, $poll);  
-                        //     }
-                        // }
-                        
-                        return response()->json($request->file('options'), 200);
+                        $poll->save();
+
+                        if ($request->input('option_type') === "text") {
+                            $items = $request->input('options');
+                            //This handles the text options 
+                            $res   = $this->textOption($items, $poll);
+                        }else if($request->input('option_type') === "image") { 
+                            $files = $request->file('options');
+                            $res = $this->imageOption($files, $poll);  
+                        }
+
+                        $poll = Poll::where('id', $poll->id)
+                        ->withCount('votes')
+                        ->with(['options' => function($query){
+                            $query->withCount('votes');
+                         }])
+                        ->get();
+                        $res['polls'] = $poll;
+                        return response()->json($res,  $res['status_code']);
                     }catch(\Exception $e) {
                         $res['message'] = 'An error occured, please try again!';
-                        $res['hint'] = $e->getMessage();
+                        $res['hint']    = $e->getMessage();
                         
                         return response()->json($res, 501);
                     }
@@ -121,18 +127,20 @@ class UserPollController extends Controller
     public function textOption($items, $poll) {
               foreach($items as $item) {
                 $option = new Option;
-                $option->option = $item['option'];
+                $option->option = $item;
                 $option->owner_id = Auth::user()->id;
                 $option->poll_id = $poll->id;
                 $option->save();
             }
+            $res['status'] = true;
             $res['message'] = 'Poll created Successfully';
-            $res['status'] = 201;
+            $res['status_code'] = 201;
             return $res;
     }
      public function imageOption($files, $poll) {
         $format = array('jpg', 'jpeg', 'png', 'gif');
         $data = [];
+       
               foreach($files as $file) {
                 if ($file->isValid()) {
                     $extension = strtolower($file->extension());
@@ -144,26 +152,58 @@ class UserPollController extends Controller
                              $res['status'] =  422;
                              return $res;
                         }
-                         $result = $this->imageOptionUpload($file, $poll);
-                         array_push($data, $result);
+                        DB::beginTransaction();
+                        try{
+                            $result = $this->imageOptionUpload($file, $poll);
+
+                            $option = new Option;
+                            $option->option = $result;
+                            $option->owner_id = Auth::user()->id;
+                            $option->poll_id = $poll->id;
+                            $option->save();
+
+                            DB::commit();
+                            array_push($data, $result);
+                        }catch(\Exception $e) {
+                          DB::rollBack();
+                              $res['status']   = false;
+                              $res['message']  = 'An error occured, please try again';
+                              $res['hint']     = $e->getMessage();
+                              $res['status_code'] =  501;
+                              return $res;
+                            }
                     }else {
-                         $res['message'] = 'Format not support, use only (jpg,png,jpeg,gif)';
-                          $res['status'] = 422;
+                          $res['message'] = 'Format not support or invalid, use only (jpg,png,jpeg,gif)';
+                          $res['status_code'] = 422;
                           return $res;
                     }
                 }
             }
-         $res['message'] =  'Poll created successfully!';
-         $res['status'] =  200;
-         $res['data'] = $data;
-         return $res;
+        
+            if(count($data) >= 4) {
+                $res['status'] = true;
+                $res['message'] = "Upload Successful!";
+                $res['image_link'] = 'https://res.cloudinary.com/getfiledata/image/upload/';
+                $res['image_format']  = 'w_100,ar_1:1,c_fill,g_auto/';
+                $res['image_example_link']  = 'https://res.cloudinary.com/getfiledata/image/upload/w_100,ar_1:1,c_fill,g_auto/'.$result;
+
+                $res['status_code'] = 201;
+                return $res;
+            }
     }
     public function imageOptionUpload($file, $poll) {
-        $image = $file->getRealPath();
-        //Store to Cloudinary 
-        $cloudder = Cloudder::upload($image);
-        $getResult = $cloudder->getResult();
-        return $getResult;
+            $image = $file->getRealPath();
+            //Store to Cloudinary 
+            $cloudder = Cloudder::upload($image);
+            $getResult = $cloudder->getResult();
+            
+            $file_url     = $getResult["public_id"];
+            //Get the image format from the api
+            $format       = $getResult["format"];
+
+            $user_image   = $file_url.".".$format;
+
+            return $user_image;
     }
     public function update(Request $request, $id)
     {
