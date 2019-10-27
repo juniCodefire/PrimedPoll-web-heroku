@@ -1,4 +1,4 @@
---<?php
+<?php
 
 namespace App\Http\Controllers;
 
@@ -143,6 +143,10 @@ class UserFeedsController extends Controller
                 'poll'      => $fetch_poll->question,
                 'interest'  => $fetch_interest->title,
                 'poll_owner_id' => $fetch_poll->owner_id,
+                'option_type' => $fetch_poll->option_type,
+                'poll_date' => date('Y-m-d',strtotime($fetch_poll->created_at)),
+                'poll_startdate'  =>  date('Y-m-d',strtotime($fetch_poll->startdate)),
+                'poll_expirydate' =>  date('Y-m-d',strtotime($fetch_poll->expirydat)),
                 'firstname' => $fetch_user->first_name,
                 'lastname'  => $fetch_user->last_name,
                 'image_link'=> 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',
