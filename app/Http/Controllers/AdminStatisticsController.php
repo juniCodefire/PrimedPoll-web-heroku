@@ -94,6 +94,7 @@ class AdminStatisticsController extends Controller
 
     public function interest()
     {
+        $interest_count = Interest::count();
         $t_c_by_p = DB::table('polls')->select('interest_id', DB::raw('count(*) as totalPoll'))
                     ->groupBy('interest_id')
                     ->orderBy('totalPoll', 'desc')
@@ -105,6 +106,7 @@ class AdminStatisticsController extends Controller
             array_push($this->trending_category_by_poll  , ['interest' => $category, 'pollCount' =>$t->totalPoll]);
         }
         return response()->json([
+            'interest_count' => $interest_count,
             'trending_interest_by_poll' => $this->trending_category_by_poll
         ], 200);
             
