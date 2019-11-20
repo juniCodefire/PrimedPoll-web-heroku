@@ -55,20 +55,22 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function () use 
 
     //for admin******************************Jeremiahiro******************************start/
 
-    // Lets admin view all registered users
-    $router->get('admin/users', 'AdminController@users');
-
-    // lets admin view all polls and affiliated options
-    $router->get('admin/polls', 'AdminController@polls');
-
-    // admin can view trending poll
-    $router->get('admin/trending', 'AdminController@trending');
-
     //for admin******************************Francis******************************start/
     $router->delete('admin/users/{user_id}', 'AdminController@deleteUser');
     //for admin******************************Jeremiahiro******************************end here/
-
     $router->get('admin/polls/{id}', 'AdminInterestController@showAdmin');
+
+    // Statistics For Primed Poll
+    //All User Stat
+    $router->get('statistics/users', 'AdminStatisticsController@users');
+    // All Poll stat
+    $router->get('statistics/polls', 'AdminStatisticsController@polls');
+    //Treanding category base on highest poll
+    $router->get('statistics/category', 'AdminStatisticsController@category');
+    //Gender Count
+    $router->get('statistics/gender', 'AdminStatisticsController@GenderCount');
+    //Period Count
+    $router->get('statistics/period/count', 'AdminStatisticsController@periodCount');
 
 
     //This is the Users Public route

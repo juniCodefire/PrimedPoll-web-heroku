@@ -25,7 +25,7 @@ class Vote extends Model implements JWTSubject, AuthenticatableContract, Authori
         return [];
     }
 
-    public function votes()
+    public function user()
     {
         return $this->hasMany('App\Vote');
     }

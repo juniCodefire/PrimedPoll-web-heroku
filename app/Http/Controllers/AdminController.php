@@ -39,17 +39,16 @@ class AdminController extends Controller
 
     public function trending()
     {
-        $poll = Poll::where('expirydate', '>=', Carbon::now());
-
+        $poll = Poll::where('expirydate', '>=', Carbon::now())->get();
+        dd($poll);
         if($poll){
-
                 $trending = DB::table('votes')
                 ->select('poll_id', DB::raw('count(*) as totalVote'))
                 ->groupBy('poll_id')
                 ->orderBy('totalVote', 'desc')
                 ->take(10)
                 ->get();           
-                return response()->json($trending, 200);
+                return response()->json([$trending, $poll], 200);
             
         } return response()->json('No trending Post', 202);
     }
