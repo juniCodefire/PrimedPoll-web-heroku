@@ -66,7 +66,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function () use 
     // All Poll stat
     $router->get('statistics/polls', 'AdminStatisticsController@polls');
     //Treanding category base on highest poll
-    $router->get('statistics/category', 'AdminStatisticsController@category');
+    $router->get('statistics/interest', 'AdminStatisticsController@interest');
     //Gender Count
     $router->get('statistics/gender', 'AdminStatisticsController@GenderCount');
     //Period Count
