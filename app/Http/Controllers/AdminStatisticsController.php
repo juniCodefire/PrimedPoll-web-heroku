@@ -59,6 +59,7 @@ class AdminStatisticsController extends Controller
         }
 
 		return response()->json([
+             'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',
              'latest_registered_user' => $users,
              'trending_users_by_votes' => $this->trending_user_by_votes,
              'trending_users_by_polls' => $this->trending_user_by_polls
