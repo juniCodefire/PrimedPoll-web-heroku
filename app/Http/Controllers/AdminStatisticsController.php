@@ -81,11 +81,13 @@ class AdminStatisticsController extends Controller
         foreach ($t_p_by_v as $t) {
             $poll = Poll::where('id', $t->poll_id)->with('users')->first();
             array_push($this->trending_polls_by_votes , [
-                'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',  'poll' => $poll, 'voteCount' =>$t->totalVote]);
+                 'poll' => $poll, 'voteCount' =>$t->totalVote]);
         }
 
         return response()->json(
-            ['trending_poll_by_expiry_date_poll' => $polls,
+            [
+             'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',
+             'trending_poll_by_expiry_date_poll' => $polls,
              'trending_polls_by_vote' => $this->trending_polls_by_votes
 
             ], 200);
