@@ -34,7 +34,7 @@ class UserVotesController extends Controller
                 if(!Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll->id)->exists())
                 {
                     $vote->owner_id = Auth::user()->id;
-                    $vote->poll_owner_id = $request->input('poll_owner_id');
+                    $vote->voter_id = $request->input('voter_id');
                     $vote->option_id = $request->input('option_id');
                     $vote->poll_id = $poll->id;
                     $vote->save();

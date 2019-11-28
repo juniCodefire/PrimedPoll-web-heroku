@@ -164,6 +164,10 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function () use 
     $router->get('/follow', 'UserFollowController@show');
     $router->post('/follow/{id}', 'UserFollowController@follow');
 
+    //User Statistics
+    $router->get('/user/poll/count/{poll_id}', 'UserPollStatisticsController@user_poll_count');
+    $router->get('/user/poll/count', 'UserPollStatisticsController@user_general_count');
+
 });
 
 
