@@ -48,8 +48,6 @@ class UserFeedsController extends Controller
 
     }
 
-
-
     public function scrolledfeeds(Request $request,$id = null, $offset) {
 
         if (empty($offset)) {
@@ -164,7 +162,7 @@ class UserFeedsController extends Controller
   public function voteStatus($poll_id) {
         $check_vote_status = Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll_id)->exists();
         if ($check_vote_status) {
-            $vote_info = Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll_id)->first();
+            $vote_info = Vote::where('voter_id', Auth::user()->id)->where('poll_id', $poll_id)->first();
             return  $vote_info->option_id;
         }else {
           return false;
