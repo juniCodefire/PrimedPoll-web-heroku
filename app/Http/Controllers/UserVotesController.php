@@ -24,16 +24,19 @@ class UserVotesController extends Controller
     public function create(Request $request, $id)
     {
         $poll = Poll::find($id);
-
         $this->validateVote($request);
+
         if($poll){
           //start temporay transaction
           DB::beginTransaction();
         try{
-            $vote = new Vote;
             //This check if the user has voted before ... Please commented
                 // if(!Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll->id)->exists())
                 // {
+                if(!Vote::where('poll_id', $poll->id)->where('voter_id', $request->input('poll_owner_id'))->exists){
+                    return response()->json(['error' => true, 'message' => 'Already Voted, Please vote another poll!'], 400);
+                }
+                    $vote = new Vote;
                     $vote->voter_id = Auth::user()->id;
                     $vote->owner_id = $request->input('poll_owner_id');
                     $vote->option_id = $request->input('option_id');
@@ -41,7 +44,7 @@ class UserVotesController extends Controller
                     $vote->save();
                     //if operation was successful save changes to database
                     DB::commit();
-                    return response()->json(['success' => true, 'check' => 1, 'message' => 'Voted Successful!', 'vote' => $vote], 201);
+                    return response()->json(['success' => true, 'message' => 'Voted Successful!', 'vote' => $vote], 201);
                 // }
 
                 // $unVote =Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll->id)->first();
