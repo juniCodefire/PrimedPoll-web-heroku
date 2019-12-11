@@ -33,9 +33,9 @@ class UserVotesController extends Controller
             //This check if the user has voted before ... Please commented
                 // if(!Vote::where('owner_id', Auth::user()->id)->where('poll_id', $poll->id)->exists())
                 // {
-                if(!Vote::where('poll_id', $poll->id)->where('voter_id', Auth::user()->id)->exists()){
-                    return response()->json(['error' => true, 'message' => 'Already Voted, Please vote another poll!'], 400);
-                }
+                    if(Vote::where('poll_id', $poll->id)->where('voter_id', Auth::user()->id)->exists()){
+                        return response()->json(['error' => true, 'message' => 'Already Voted, Please vote another poll!'], 400);
+                    }
                     $vote = new Vote;
                     $vote->voter_id = Auth::user()->id;
                     $vote->owner_id = $request->input('poll_owner_id');
