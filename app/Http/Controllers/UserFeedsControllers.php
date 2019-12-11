@@ -23,9 +23,6 @@ class UserFeedsController extends Controller
      public  $feeds   = [];
      public  $options = [];
 
-
-
-
     public function index($id = null)
     {
        if ($id == null) {
