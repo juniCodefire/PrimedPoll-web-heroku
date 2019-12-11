@@ -51,11 +51,12 @@ class UserFeedsController extends Controller
     public function scrolledfeeds(Request $request,$id = null, $offset) {
 
         if (empty($offset)) {
-            return response()->json(['data' =>['error' => false, 'message' => 'offset cannot be empty']], 404);
+            return response()->json(['data' =>['error' => false, 'message' => 'offset cannot be empty']], 400);
         }
+
         if ($id == null) {
           $fetch_polls = Poll::whereIn('interest_id', $this->feedspermit())
-                          ->offset($offset)
+                          ->offset((int)$offset)
                           ->withCount('votes')
                           ->orderBy('id', 'desc')
                           ->limit(10)
@@ -72,7 +73,7 @@ class UserFeedsController extends Controller
         //This is the triggerQuery
         $this->triggerQuery($fetch_polls, $vote_status_key="on");
 
-        $offset += 5;
+        $offset += 10;
         return response()->json(['data' =>['success' => true, 'scrolled_feeds' => $this->feeds, 'new_offset' => $offset]], 200);
 
   }
