@@ -16,7 +16,7 @@
             <h4>Hello <b>{{$user->first_name}} --- <span style="color: #f58731;">{{$user->username}}</span></b></h4>
             <div id="third_block">
                     <p>Please follow the below link to change your password!</p><br><br>
-                    <p style="text-align:center;"><a href="https://polledapp-9fa3c.firebaseapp.com/Users/reset_password.html?email={{ $user->email }}&verifycode={{ $user->verifycode }}">
+                    <p style="text-align:center;"><a href="https://primedpoll.com/users/reset_password.html?email={{ $user->email }}&verifycode={{ $user->verifycode }}">
                     <button style="background:#f58731; color:white; padding:15px 70px 15px 70px; border: 1px solid #f58731;border-radius: 5px;">RESET PASSWORD</button>
                     </a></p>
 

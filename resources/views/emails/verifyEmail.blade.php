@@ -369,7 +369,7 @@
                             </tr>
                             <tr>
                                 <td class="content-block">
-                                    <a href="#">Subscribe</a> To Our Newsletter
+                                    <a href="https://primedpoll.com/?subscribed">Subscribe</a> To Our Newsletter
                                 </td>
                             </tr>
                             <tr>

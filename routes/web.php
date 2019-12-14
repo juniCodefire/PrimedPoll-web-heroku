@@ -27,7 +27,7 @@ $router->get('/api/interest/{interest_id}', 'InterestController@show');
 
 //****************Users Routes**************** */
 $router->post('/api/register', 'SignupController@register');
-$router->post('api/register/verify', 'VerifyUserController@verifyUser');
+$router->post('api/verify', 'VerifyUserController@verifyUser');
 $router->post('api/login', 'SignInController@userLogin');
 
 //Tino

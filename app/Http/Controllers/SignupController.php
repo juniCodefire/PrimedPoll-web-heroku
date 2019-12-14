@@ -36,7 +36,7 @@ class SignupController extends Controller
 			Mail::to($user->email)->send(new VerifyEmail($user));
 
 
-			$msg['message'] = "Thanks for signing up! A Verification Mail has been Sent to $user->email";
+			$msg['message'] = "Thanks for signing up! A Verification Mail has been sent to $user->email";
 
 			$msg['verified'] = false;
 
@@ -52,6 +52,7 @@ class SignupController extends Controller
 			DB::rollBack();
 
 			$msg['error'] = "Account Not created, Try Again!";
+			$msg['hint'] = $e->getMessage();
 			return response()->json($msg, 501);
 
 

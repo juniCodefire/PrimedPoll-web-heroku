@@ -9,8 +9,10 @@ use App\Admin;
 use Carbon\Carbon;
 use JWTAuthException;
 use App\Http\Requests;
+use App\Mail\VerifyEmail;
 use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -54,13 +56,17 @@ class SignInController extends Controller
         if ($user->email_verified_at != null) {
             return response()->json(['data' => ['success' => true, 'user' => $user, 'image_link' => $image_link, 'token' => $token]], 200);
         } else {
-            return response()->json(['data' => ['error' => false, 'message' => "Not confirmed yet"]], 401);
+
+          			Mail::to($user->email)->send(new VerifyEmail($user));
+          			$warning = "Please your account has not been confirmed yet ". $user->email;
+                $message = "A verification code has been sent to your email ". $user->email;
+            return response()->json(['data' => ['error' => false, 'user_status' => 0, 'warning' => $warning, 'message' => $message]], 401);
         }
     }
 
     public function adminLogin(Request $request)
     {
-        // Do a validation for the input
+        // Do a validation for the input--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         $this->validate($request, [
 
             'email' => 'required|email',
