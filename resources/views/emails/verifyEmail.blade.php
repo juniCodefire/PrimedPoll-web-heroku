@@ -344,7 +344,7 @@
                                             <h3>Hi <small>{{$user->email}}</small>,</h3>
                                             <h2>Welcome to PrimedPoll!</h2>
 
-                                            <p>Verification Code: <br><Strong>{{ $user->verifycode }}</Strong></p>
+                                            <p>Verification Code: <br><b>{{ $user->verifycode }}</b></p>
 
                                         </td>
                                     </tr>

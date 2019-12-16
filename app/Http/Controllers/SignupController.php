@@ -29,7 +29,7 @@ class SignupController extends Controller
 			$user = User::create([
 			'email' => $request->input('email'),
 			'password' => Hash::make($request->get('password')),
-				'verifycode' => $verifycode
+			'verifycode' => $verifycode
 			]);
 
 
