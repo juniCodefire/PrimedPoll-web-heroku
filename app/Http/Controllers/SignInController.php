@@ -53,13 +53,14 @@ class SignInController extends Controller
         $user = Auth::guard('api')->user();
         $image_link = 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/';
 
+        $user->first_name == null ? $process = 'incompleted' : $process = 'completed';
         if ($user->email_verified_at != null) {
-            return response()->json(['data' => ['success' => true, 'user' => $user, 'image_link' => $image_link, 'token' => $token]], 200);
+            return response()->json(['data' => ['success' => true, 'user' => $user, 'process' => $process, 'image_link' => $image_link, 'token' => $token]], 200);
         } else {
 
-          			Mail::to($user->email)->send(new VerifyEmail($user));
-          			$warning = "Please your account has not been confirmed yet ". $user->email;
-                $message = "A verification code has been sent to your email ". $user->email;
+  			Mail::to($user->email)->send(new VerifyEmail($user));
+  			$warning = "Please your account has not been confirmed yet ". $user->email;
+            $message = "A verification code has been sent to your email ". $user->email;
             return response()->json(['data' => ['error' => false, 'user_status' => 0, 'warning' => $warning, 'message' => $message]], 401);
         }
     }
