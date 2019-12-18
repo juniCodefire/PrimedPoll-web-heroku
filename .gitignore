@@ -3,6 +3,6 @@
 Homestead.json
 Homestead.yaml
 composer.lock
-.env
+.envy
 .envDefault
 .env.example
