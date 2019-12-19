@@ -33,7 +33,7 @@ class UserCompleteRegistrationController extends Controller
         $user->image = $default_image;
         $user->username = '@'.$user->first_name.$uniqueID;
 
-        $interest_ids = $request->input('interest_ids');
+        $interest_ids = $request->input('interest_id');
 
         $interest = $user->interest()->syncWithoutDetaching($interest_ids);
 
@@ -47,7 +47,7 @@ class UserCompleteRegistrationController extends Controller
         $msg['image'] = $user->image;
         return response()->json($msg, 201);
         }catch (\Exception $e) {
-            return response()->json(['message'=> "Opps! Something went wrong!"], 400);
+            return response()->json(['message'=> "Opps! Something went wrong!", 'hint' => $e->getMessage()], 400);
         }
     }
 
@@ -60,8 +60,7 @@ class UserCompleteRegistrationController extends Controller
         'gender' => 'string|required',
         'country' => 'string|required',
         'dob' => 'date|required',
-        'interest_ids' => 'required|array|min:5',
-        'interest_ids.*' => 'required|integer',
+        'interest_id' => 'required|array|min:5',
         'username' => 'unique'
         ];
         $messages = [
