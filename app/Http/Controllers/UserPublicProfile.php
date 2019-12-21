@@ -44,7 +44,7 @@ class UserPublicProfile extends Controller
     }
     return response()->json(['data' => [
       'success' => true, 'user' => $userData, 'interest' => $interest, 'polls' => $polls,
-      'pollCount' =>  $pollsCount, 'imageLink' => 'https://res.cloudinary.com/getfiledata/image/upload/',
+      'pollCount' =>  $pollsCount, 'imageLink' => env('CLOUDINARY_IMAGE_LINK'),
       'imageProp' => [
         'cropType1' => 'c_fit',
         'cropType2' => 'g_face',

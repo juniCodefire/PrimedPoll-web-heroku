@@ -145,7 +145,7 @@ class UserFeedsController extends Controller
                 'poll_expirydate' =>  date('Y-m-d',strtotime($fetch_poll->expirydat)),
                 'firstname' => $fetch_user->first_name,
                 'lastname'  => $fetch_user->last_name,
-                'image_link'=> 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',
+                'image_link'=> env('CLOUDINARY_IMAGE_LINK').'/w_200,c_thumb,ar_4:4,g_face/',
                 'image'     => $fetch_user->image,
                 'option'    => $this->options,
                 'vote_status' => $vote_status,

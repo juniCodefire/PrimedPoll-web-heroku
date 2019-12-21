@@ -33,7 +33,7 @@ class UserCompleteRegistrationController extends Controller
         $user->image = $default_image;
         $user->username = '@'.$user->first_name.$uniqueID;
 
-        $interest_ids = $request->input('interest_id');
+        $interest_ids = $request->input('interest_ids');
 
         $interest = $user->interest()->syncWithoutDetaching($interest_ids);
 
@@ -43,7 +43,7 @@ class UserCompleteRegistrationController extends Controller
         $msg['user'] = $user;
         $msg['interests'] = $user->interest()->get();
         $msg['interest'] = $interest;
-        $msg['image_link'] = 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/';
+        $msg['image_link'] = env('CLOUDINARY_IMAGE_LINK').'/w_200,c_thumb,ar_4:4,g_face/';
         $msg['image'] = $user->image;
         return response()->json($msg, 201);
         }catch (\Exception $e) {
@@ -60,7 +60,7 @@ class UserCompleteRegistrationController extends Controller
         'gender' => 'string|required',
         'country' => 'string|required',
         'dob' => 'date|required',
-        'interest_id' => 'required|array|min:5',
+        'interest_ids' => 'required|array|min:5',
         'username' => 'unique'
         ];
         $messages = [

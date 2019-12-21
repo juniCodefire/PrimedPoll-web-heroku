@@ -19,7 +19,8 @@ class SignupController extends Controller
 	{
 		$this->validateRequest($request);
 
-		$verifycode = (str_random(6));
+		// $verifycode = (str_random(6));
+		$verifycode = mt_rand(100000,999999);
 
 		//start temporay transaction
 		DB::beginTransaction();

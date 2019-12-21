@@ -49,9 +49,8 @@ class SignInController extends Controller
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             return response()->json(['token_absent' => $e->getMessage()], 500);
         }
-//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
         $user = Auth::guard('api')->user();
-        $image_link = 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/';
+        $image_link = env('CLOUDINARY_IMAGE_LINK').'/w_200,c_thumb,ar_4:4,g_face/';
 
         $user->first_name == null ? $process = 'incompleted' : $process = 'completed';
         if ($user->email_verified_at != null) {
@@ -88,7 +87,7 @@ class SignInController extends Controller
         }
 
         $admin = Auth::guard('admin')->user();
-        $image_link = 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/';
+        $image_link = env('CLOUDINARY_IMAGE_LINK').'/w_200,c_thumb,ar_4:4,g_face/';
         return response()->json(['data' => ['success' => true, 'admin' => $admin, 'imag_link' => $image_link, 'token' => $token]], 200);
     }
 }
