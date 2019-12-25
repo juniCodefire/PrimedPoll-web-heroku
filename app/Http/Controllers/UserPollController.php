@@ -47,7 +47,7 @@ class UserPollController extends Controller
             }
             return response()->json(['success' => true,
              'message' => 'users who voted', 'users' =>  $user,
-             'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/'
+             'image_link' => env('CLOUDINARY_IMAGE_LINK').'/w_200,c_thumb,ar_4:4,g_face/'
             ]);
         }else {
             return response()->json(['error' => true, 'message' => 'Invalid poll id']);
@@ -186,9 +186,9 @@ class UserPollController extends Controller
             if(count($data) >= 3) {
                 $res['status'] = true;
                 $res['message'] = "Upload Successful!";
-                $res['image_link'] = 'https://res.cloudinary.com/getfiledata/image/upload/';
-                $res['image_format']  = 'w_100,ar_1:1,c_fill,g_auto/';
-                $res['image_example_link']  = 'https://res.cloudinary.com/getfiledata/image/upload/w_100,ar_1:1,c_fill,g_auto/'.$result;
+                $res['image_link'] = env('CLOUDINARY_IMAGE_LINK');
+                $res['image_format']  = '/w_100,ar_1:1,c_fill,g_auto/';
+                $res['image_example_link']  = env('CLOUDINARY_IMAGE_LINK').'/w_100,ar_1:1,c_fill,g_auto/'.$result;
 
                 $res['status_code'] = 201;
                 return $res;
