@@ -53,13 +53,18 @@ class UserFeedsController extends Controller
 
     }
 
-    public function scrolledfeeds( Request $request, $id = null, $offset ) {
+    public function scrolledfeeds( Request $request, $offset , $id = null )
+    {
+           $query = $request->query( 'search_poll' );
 
         if ( empty( $offset ) ) {
             return response()->json( ['data' =>['error' => false, 'message' => 'offset cannot be empty']], 400 );
         }
+        if ( $query ) {
 
-        if ( $id == null ) {
+            $fetch_polls = $this->searchPoll( $query, $id );
+
+        } else if (  $id == null ) {
             $fetch_polls = Poll::whereIn( 'interest_id', $this->feedspermit() )
             ->offset( ( int )$offset )
             ->withCount( 'votes' )

@@ -18,11 +18,25 @@ class UserInterestController extends Controller
      * @return void
      */
     
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        $query = $request->query('interest_filter');
 
-        $interest = $user->interest()->get();
+        if($query) {
+            $interest_ids = Userinterest::where('owner_id', $user->id)->pluck('interest_id');
+
+            $interest = Interest::whereIn('id', $interest_ids)
+                                ->where('title', 'LIKE', "%{$query}%")
+                                ->orderBy( 'id', 'asc' )
+                                ->limit( 25 )
+                                ->get();
+        }else {
+            $interest = $user->interest()
+            ->orderBy( 'id', 'asc' )
+            ->limit( 25 )
+            ->get();
+        }
 
         return response()->json($interest, 200);
     }

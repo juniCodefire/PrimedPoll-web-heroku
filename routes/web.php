@@ -112,7 +112,7 @@ $router->group(['middleware' => 'jwt.auth', 'prefix' => 'api'], function () use 
 
     // show all interest that user subscribed to
     $router->get('/user/interest/', 'UserInterestController@index');
-
+    
     // show a single interest that user subscribed to
     $router->get('/user/{interest_id}', 'UserInterestController@show');
 
