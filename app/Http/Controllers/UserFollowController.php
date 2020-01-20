@@ -82,18 +82,28 @@ class UserFollowController extends Controller
     return response()->json(['success' => true, 'message' => 'Successful',   'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',  'to_follow' => $to_follow]);
   }
 
-  public function followers($id) {
+  public function followers($helper= false, $id) {
     //This api get the followers from the followers table
     $get_the_followers_id = Follow::where('following_id', $id)->latest()->pluck('follower_id');
+    $get_followers_count = User::whereIn('id', $get_the_followers_id)->count();
+    if($helper) {
+      return $get_followers_count;
+    }
     $get_followers_data = User::whereIn('id', $get_the_followers_id)->get();
-    return response()->json(['success' => true, 'message' => 'Successful all followers!', 'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/', 'followers' => $get_followers_data]);
+    return response()->json(['success' => true, 'message' => 'Successful all followers!', 'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/',
+                             'followers' => $get_followers_data, 'count' =>  $get_followers_count]);
   }
 
-  public function following($id) {
+  public function following($helper= false, $id) {
     //This api get the followers from the following table
     $get_the_following_id = Follow::where('follower_id', $id)->latest()->pluck('following_id');
+    $get_following_count = User::whereIn('id', $get_the_following_id)->count();
+    if($helper) {
+      return $get_following_count;
+    }
     $get_following_data = User::whereIn('id', $get_the_following_id)->get();
-    return response()->json(['success' => true, 'message' => 'Successful all followers!', 'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/', 'following' => $get_following_data]);
+    return response()->json(['success' => true, 'message' => 'Successful all followers!', 'image_link' => 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_thumb,ar_4:4,g_face/', 
+                             'following' => $get_following_data, 'count' =>  $get_following_count]);
   }
 
   public function permit($id)

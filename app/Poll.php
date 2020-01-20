@@ -58,4 +58,22 @@ class Poll extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return $this->hasMany('App\Vote');
     }
+
+    public function vote_status()
+    {
+        return $this->hasMany('App\Vote');
+    }
+    public function all_voters()
+    {
+        return $this->hasMany('App\Vote');
+    }
+
+    public function voters_male()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function getAssociatedViewsCountAttribute() {
+        return $this->voters_male->count(); 
+    }
 }
